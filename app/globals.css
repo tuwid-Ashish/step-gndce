@@ -1,26 +1,118 @@
+/* 1) Core framework */
 @import "tailwindcss";
 
+/* 2) Plugins (v4 style) */
+/* @plugin "@tailwindcss/typography";   prose classes for notes/board/results */
+@import "tw-animate-css";            /* shadcn: replace tailwindcss-animate */
+
+/* 3) Optional: add extra scan sources if needed (MD/MDX, external UI lib, etc.) */
+/* @source "./content"; */
+/* @source "./src/cms"; */
+
+/* 4) Dark-mode (class strategy) — official v4 way */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 5) Base tokens as regular CSS variables (easy to reuse anywhere) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Surfaces & text */
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(222 14% 15%);
+
+  /* Brand — STEP: Navy/Gold/Slate (OKLCH gives nicer modern gamut; HSL also fine) */
+  --primary: oklch(0.41 0.08 254);      /* deep navy */
+  --secondary: oklch(0.40 0.03 250);    /* slate companion */
+  --accent: oklch(0.78 0.14 85);        /* gold */
+
+  /* UI tokens */
+  --muted: oklch(0.95 0.01 250);
+  --muted-foreground: oklch(0.55 0.02 250);
+  --border: oklch(0.90 0.01 250);
+  --ring: oklch(0.41 0.08 254);
+
+  /* Status */
+  --info: oklch(0.75 0.12 221);
+  --success: oklch(0.67 0.15 151);
+  --warning: oklch(0.84 0.16 83);
+  --destructive: oklch(0.64 0.26 25);
+
+  /* Brand scale (for subtle sections/cards) */
+  --brand-50:  oklch(0.97 0.01 254);
+  --brand-100: oklch(0.93 0.02 254);
+  --brand-200: oklch(0.86 0.03 254);
+  --brand-300: oklch(0.77 0.05 254);
+  --brand-400: oklch(0.62 0.07 254);
+  --brand-500: oklch(0.51 0.08 254);
+  --brand-600: oklch(0.41 0.08 254); /* same as --primary */
+  --brand-700: oklch(0.34 0.07 254);
+  --brand-800: oklch(0.27 0.06 254);
+  --brand-900: oklch(0.22 0.05 254);
 }
 
+/* Dark theme tokens */
+.dark {
+  --background: oklch(0.15 0.02 250);
+  --foreground: oklch(0.98 0.01 250);
+
+  --primary: oklch(0.55 0.07 254);
+  --secondary: oklch(0.32 0.02 250);
+  --accent: oklch(0.72 0.13 85);
+
+  --muted: oklch(0.22 0.01 250);
+  --muted-foreground: oklch(0.73 0.02 250);
+  --border: oklch(0.28 0.01 250);
+  --ring: oklch(0.55 0.07 254);
+
+  --info: oklch(0.78 0.12 221);
+  --success: oklch(0.70 0.15 151);
+  --warning: oklch(0.80 0.16 83);
+  --destructive: oklch(0.60 0.23 25);
+}
+
+/* 6) Map CSS vars -> Tailwind theme variables (so utilities like bg-primary, text-muted-foreground work) */
 @theme inline {
+  /* Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+
+  --color-info: var(--info);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-destructive: var(--destructive);
+
+  /* Brand scale -> bg-brand-600, text-brand-50, etc. */
+  --color-brand-50:  var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+
+  /* Radius (shadcn-style) */
+  --radius-lg: 12px;
+  --radius-md: 10px;
+  --radius-sm: 8px;
+
+  /* Fonts (wire these to next/font CSS vars if you like) */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, "Noto Color Emoji";
+  --font-hindi: var(--font-noto), system-ui, sans-serif;
+  --font-punjabi: var(--font-mukta), system-ui, sans-serif;
+
+  /* Optional: custom breakpoint for wide dashboards */
+  --breakpoint-3xl: 120rem; /* use 3xl:* variants */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+/* 7) Helpful prose preset for notices/updates (typography plugin) */
+/* .prose-step { @apply prose max-w-none dark:prose-invert; } */
