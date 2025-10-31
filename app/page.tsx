@@ -7,7 +7,7 @@ import { DiplomaCard } from "@/components/diploma-card"
 import { NoticeCard } from "@/components/notice-card"
 import { ProgramCard } from "@/components/program-card"
 import { UpdateTag } from "@/components/update-tag"
-import { Trophy, GraduationCap, ArrowRight, Rocket, Target, TrendingUp, Clock, Phone, Mail, MessageCircle, MapPin } from "lucide-react"
+import { Trophy, GraduationCap, ArrowRight, Rocket, TrendingUp, Clock, Phone, Mail, MessageCircle, MapPin } from "lucide-react"
 
 // TODO: replace with the actual STEP asset URLs or move files into /public and point there.
 const HERO_VIDEO =

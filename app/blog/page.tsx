@@ -1,5 +1,4 @@
 import { Container } from "@/components/container"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
@@ -24,7 +23,7 @@ export default function BlogPage() {
           <div className="bg-brand-50 rounded-lg p-8 text-center">
             <h2 className="text-2xl font-bold mb-4">Coming Soon</h2>
             <p className="text-muted-foreground mb-6">
-              We're working on bringing you insightful articles and updates. 
+              We&apos;re working on bringing you insightful articles and updates. 
               Check back soon for the latest content!
             </p>
             <Button asChild>

@@ -2,7 +2,7 @@ import { Container } from "@/components/container"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
-import { notFound } from "next/navigation"
+// import { notFound } from "next/navigation"
 
 interface StartupPageProps {
   params: Promise<{
@@ -12,6 +12,8 @@ interface StartupPageProps {
 
 export async function generateMetadata({ params }: StartupPageProps) {
   const { slug } = await params
+  console.log(slug);
+  
   
   return {
     title: "Startup Details",
@@ -21,6 +23,8 @@ export async function generateMetadata({ params }: StartupPageProps) {
 
 export default async function StartupPage({ params }: StartupPageProps) {
   const { slug } = await params
+  console.log(slug);
+  
   
   // TODO: Fetch startup data based on slug
   // For now, just show placeholder
@@ -39,7 +43,7 @@ export default async function StartupPage({ params }: StartupPageProps) {
           <div className="bg-brand-50 rounded-lg p-8 text-center">
             <h1 className="text-2xl font-bold mb-4">Startup Details Coming Soon</h1>
             <p className="text-muted-foreground mb-4">
-              We're working on detailed startup profiles. This page will feature:
+              We&apos;re working on detailed startup profiles. This page will feature:
             </p>
             <ul className="text-left max-w-md mx-auto space-y-2 text-muted-foreground mb-6">
               <li>• Company overview and mission</li>

@@ -7,8 +7,37 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Mail, Phone, MapPin, Calendar, Users, BookOpen, Award, ExternalLink } from "lucide-react"
 import { notFound } from "next/navigation"
 
+// Type definitions
+interface Education {
+  degree: string
+  institution: string
+  year: string
+}
+
+interface Experience {
+  role: string
+  org: string
+  period: string
+}
+
+interface FacultyData {
+  name: string
+  title: string
+  dept: string
+  email: string
+  phone: string
+  office: string
+  specialization: string
+  bio: string
+  education: Education[]
+  experience: Experience[]
+  courses: string[]
+  achievements: string[]
+  publications: string[]
+}
+
 // Mock faculty data
-const mockFacultyData: Record<string, any> = {
+const mockFacultyData: Record<string, FacultyData> = {
   "dr-rajesh-kumar": {
     name: "Dr. Rajesh Kumar",
     title: "Program Director & Associate Professor",
@@ -223,7 +252,7 @@ export default function FacultyDetailPage({ params }: FacultyDetailPageProps) {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {faculty.education.map((edu: any, index: number) => (
+                    {faculty.education.map((edu: Education, index: number) => (
                       <div key={index} className="border-l-2 border-primary pl-4">
                         <h3 className="font-semibold">{edu.degree}</h3>
                         <p className="text-muted-foreground">{edu.institution}</p>
@@ -242,7 +271,7 @@ export default function FacultyDetailPage({ params }: FacultyDetailPageProps) {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {faculty.experience.map((exp: any, index: number) => (
+                    {faculty.experience.map((exp: Experience, index: number) => (
                       <div key={index} className="border-l-2 border-primary pl-4">
                         <h3 className="font-semibold">{exp.role}</h3>
                         <p className="text-muted-foreground">{exp.org}</p>

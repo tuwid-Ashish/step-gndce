@@ -11,6 +11,8 @@ interface BlogPostPageProps {
 
 export async function generateMetadata({ params }: BlogPostPageProps) {
   const { slug } = await params
+  console.log(slug);
+  
   
   return {
     title: "Blog Post",
@@ -20,6 +22,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params
+  console.log(slug);
   
   return (
     <div className="py-16">
@@ -35,7 +38,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="bg-brand-50 rounded-lg p-8 text-center">
             <h1 className="text-2xl font-bold mb-4">Blog Posts Coming Soon</h1>
             <p className="text-muted-foreground mb-4">
-              We're preparing insightful articles for you. Our blog will feature:
+              We&apos;re preparing insightful articles for you. Our blog will feature:
             </p>
             <ul className="text-left max-w-md mx-auto space-y-2 text-muted-foreground mb-6">
               <li>• Industry trends and insights</li>

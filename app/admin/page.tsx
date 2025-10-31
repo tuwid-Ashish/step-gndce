@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { FileText, Users, Building2, BookOpen, TrendingUp, AlertCircle } from "lucide-react"
+import { FileText, Users, Building2, BookOpen, AlertCircle } from "lucide-react"
 import Link from "next/link"
 
 export const metadata = {

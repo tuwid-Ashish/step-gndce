@@ -8,8 +8,49 @@ import { FacultyCard } from "@/components/faculty-card"
 import { Users, BookOpen, Award, Target, Mail, Phone, MapPin } from "lucide-react"
 import { notFound } from "next/navigation"
 
+// Type definitions
+interface HeadOfDepartment {
+  name: string
+  email: string
+  phone: string
+  office: string
+}
+
+interface Program {
+  name: string
+  duration: string
+  students: number
+}
+
+interface FacultyMember {
+  slug: string
+  name: string
+  title: string
+  dept: string
+  specialization: string
+}
+
+interface Laboratory {
+  name: string
+  capacity: string
+  equipment: string
+}
+
+interface DepartmentData {
+  name: string
+  shortName: string
+  description: string
+  established: string
+  headOfDepartment: HeadOfDepartment
+  programs: Program[]
+  faculty: FacultyMember[]
+  facilities: string[]
+  achievements: string[]
+  laboratories: Laboratory[]
+}
+
 // Mock departments data
-const mockDepartmentsData: Record<string, any> = {
+const mockDepartmentsData: Record<string, DepartmentData> = {
   "computer-science": {
     name: "Computer Science & Engineering",
     shortName: "CSE",
@@ -267,7 +308,7 @@ export default function DepartmentPage({ params }: DepartmentPageProps) {
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {department.programs.map((program: any, index: number) => (
+                {department.programs.map((program: Program, index: number) => (
                   <Card key={index} className="hover:shadow-lg transition-shadow">
                     <CardHeader>
                       <CardTitle className="text-lg">{program.name}</CardTitle>
@@ -300,7 +341,7 @@ export default function DepartmentPage({ params }: DepartmentPageProps) {
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {department.faculty.map((faculty: any, index: number) => (
+                {department.faculty.map((faculty: FacultyMember, index: number) => (
                   <FacultyCard key={index} {...faculty} />
                 ))}
               </div>
@@ -353,7 +394,7 @@ export default function DepartmentPage({ params }: DepartmentPageProps) {
               </div>
               
               <div className="space-y-4">
-                {department.laboratories.map((lab: any, index: number) => (
+                {department.laboratories.map((lab: Laboratory, index: number) => (
                   <Card key={index}>
                     <CardHeader>
                       <CardTitle className="text-lg">{lab.name}</CardTitle>

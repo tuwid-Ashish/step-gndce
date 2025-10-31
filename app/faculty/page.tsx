@@ -1,6 +1,5 @@
 import { Container } from "@/components/container"
 import { FacultyCard } from "@/components/faculty-card"
-import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Filter, Users } from "lucide-react"
 

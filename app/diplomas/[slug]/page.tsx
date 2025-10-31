@@ -179,7 +179,7 @@ export default async function DiplomaPage({ params }: DiplomaPageProps) {
                   <div className="prose max-w-none">
                     <p>
                       Our Full Stack Web Development diploma is designed to provide comprehensive training
-                      in modern web technologies. You'll learn to build complete web applications from 
+                      in modern web technologies. You&apos;ll learn to build complete web applications from 
                       frontend to backend, including database design and cloud deployment.
                     </p>
                     <h3>What Makes This Program Special?</h3>
@@ -222,7 +222,7 @@ export default async function DiplomaPage({ params }: DiplomaPageProps) {
                 <CardHeader>
                   <CardTitle>Learning Outcomes</CardTitle>
                   <CardDescription>
-                    Skills and knowledge you'll gain upon completion
+                    Skills and knowledge you&apos;ll gain upon completion
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

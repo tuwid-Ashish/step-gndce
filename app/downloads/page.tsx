@@ -319,7 +319,7 @@ export default function DownloadsPage() {
                 <div>
                   <h3 className="font-semibold mb-2">Download Issues?</h3>
                   <p className="text-muted-foreground text-sm mb-4">
-                    If you're having trouble downloading any documents, please contact our support team.
+                    If you&apos;re having trouble downloading any documents, please contact our support team.
                   </p>
                   <Button variant="outline">
                     Contact Support
@@ -328,7 +328,7 @@ export default function DownloadsPage() {
                 <div>
                   <h3 className="font-semibold mb-2">Document Requests</h3>
                   <p className="text-muted-foreground text-sm mb-4">
-                    Need a document that's not listed? Submit a request and we'll help you.
+                    Need a document that&apos;s not listed? Submit a request and we'll help you.
                   </p>
                   <Button variant="outline">
                     Request Document

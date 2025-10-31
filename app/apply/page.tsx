@@ -141,8 +141,8 @@ export default function ApplyPage() {
                           <SelectItem value="10th">10th Grade</SelectItem>
                           <SelectItem value="12th">12th Grade</SelectItem>
                           <SelectItem value="diploma">Diploma</SelectItem>
-                          <SelectItem value="bachelor">Bachelor's Degree</SelectItem>
-                          <SelectItem value="master">Master's Degree</SelectItem>
+                          <SelectItem value="bachelor">Bachelor&apos;s Degree</SelectItem>
+                          <SelectItem value="master">Master&apos;s Degree</SelectItem>
                           <SelectItem value="phd">PhD</SelectItem>
                         </SelectContent>
                       </Select>
@@ -226,7 +226,7 @@ export default function ApplyPage() {
               <div className="text-center">
                 <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">1</div>
                 <h3 className="font-medium mb-1">Application Review</h3>
-                <p className="text-muted-foreground">We'll review your application within 3-5 business days</p>
+                <p className="text-muted-foreground">We&apos;ll review your application within 3-5 business days</p>
               </div>
               <div className="text-center">
                 <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">2</div>
@@ -236,7 +236,7 @@ export default function ApplyPage() {
               <div className="text-center">
                 <div className="w-8 h-8 bg-primary text-primary-foreground rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">3</div>
                 <h3 className="font-medium mb-1">Final Decision</h3>
-                <p className="text-muted-foreground">You'll receive our final decision within 7 days</p>
+                <p className="text-muted-foreground">Youll receive our final decision within 7 days</p>
               </div>
             </div>
           </div>
