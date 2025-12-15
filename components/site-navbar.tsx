@@ -3,15 +3,15 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, MessageCircle, ChevronDown, Globe } from "lucide-react"
+import { Menu, MessageCircle } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuItem,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/sheet"
 import { Container } from "@/components/container"
 import { MainLogo } from "@/components/main-logo"
-import { nav, siteConfig } from "@/components/site-config"
+import { nav } from "@/components/site-config"
 import { cn } from "@/lib/utils"
 
 export function SiteNavbar() {

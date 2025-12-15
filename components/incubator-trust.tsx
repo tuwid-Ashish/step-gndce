@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Lightbulb, Rocket, Users, Award } from "lucide-react"
+import Link from "next/link"
 
 interface IncubatorTrustProps {
   incubator: {
@@ -41,10 +42,10 @@ export function IncubatorTrust({ incubator }: IncubatorTrustProps) {
 
         <div className="flex flex-wrap justify-center gap-4">
           <Button asChild size="lg">
-            <a href="/entrepreneurship">Explore Programs</a>
+            <Link href="/entrepreneurship">Explore Programs</Link>
           </Button>
           <Button asChild variant="outline" size="lg">
-            <a href="/startups">View Startups</a>
+            <Link href="/startups">View Startups</Link>
           </Button>
         </div>
       </div>

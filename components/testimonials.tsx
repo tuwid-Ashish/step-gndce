@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 interface TestimonialsProps {
   testimonials: Array<{
     name: string
@@ -20,18 +22,19 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
               key={i} 
               className="rounded-xl border border-border bg-card p-5 shadow-sm"
             >
-              <div className="mb-4 flex items-center gap-3">
-                <img 
+                <div className="mb-4 flex items-center gap-3">
+                <Image 
                   src={testimonial.photoUrl} 
                   alt={testimonial.name}
-                  className="h-12 w-12 rounded-full object-cover"
-                  loading="lazy"
+                  width={48}
+                  height={48}
+                  className="rounded-full object-cover"
                 />
                 <div>
                   <h3 className="font-semibold text-sm">{testimonial.name}</h3>
                   <p className="text-xs text-muted-foreground">{testimonial.role}</p>
                 </div>
-              </div>
+                </div>
               <blockquote className="text-sm italic">
                 &ldquo;{testimonial.quote}&rdquo;
               </blockquote>
