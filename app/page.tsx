@@ -7,18 +7,23 @@ import { DiplomaCard } from "@/components/diploma-card"
 import { NoticeCard } from "@/components/notice-card"
 import { ProgramCard } from "@/components/program-card"
 import { UpdateTag } from "@/components/update-tag"
+import { DirectorStrip } from "@/components/director-strip"
+import { ObjectivesBlock } from "@/components/objectives-block"
+import { Testimonials } from "@/components/testimonials"
+import { IncubatorTrust } from "@/components/incubator-trust"
+import { director, objectives, testimonials, incubator } from "@/app/_data/legacy"
 import { Trophy, GraduationCap, ArrowRight, Rocket, TrendingUp, Clock, Phone, Mail, MessageCircle, MapPin } from "lucide-react"
 
 // TODO: replace with the actual STEP asset URLs or move files into /public and point there.
 const HERO_VIDEO =
-  "https://stepgndec.com/wp-content/uploads/hero-video.mp4" // <- update path
+  "/drone-footage.mp4" // <- update path
 const HERO_POSTER =
   "https://stepgndec.com/wp-content/uploads/hero-poster.jpg" // <- update path
 
 export const metadata = {
   title: "STEP – Train. Incubate. Launch.",
   description:
-    "One-year Diplomas & PG Diplomas, short trainings, and entrepreneurship programs at GNDEC, Ludhiana – with results, notices, and startup updates."
+    "One-year Diplomas & PG Diplomas,industrial trainings, and entrepreneurship programs at GNDEC, Ludhiana – with results, notices, and startup updates."
 }
 
 // Mock data (replace from DB/admin later)
@@ -49,18 +54,15 @@ export default function HomePage() {
       <section className="relative isolate">
         {/* Video bg */}
         <div className="absolute inset-0 -z-10 overflow-hidden rounded-none">
-          <video
-            className="h-full w-full object-cover"
-            autoPlay
-            loop
-            muted
-            playsInline
-            poster={HERO_POSTER}
-          >
-            <source src={HERO_VIDEO} type="video/mp4" />
-          </video>
-          {/* subtle overlay for readability */}
-          <div className="absolute inset-0 bg-black/40" />
+          <iframe 
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh]"
+            src="https://www.youtube.com/embed/ybtlmX3yPEk?autoplay=1&mute=1&loop=1&playlist=ybtlmX3yPEk&controls=0&showinfo=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1" 
+            title="STEP GNDEC Background Video" 
+            allow="autoplay; encrypted-media" 
+            aria-hidden="true"
+          />
+          {/* Gradient scrim for readability */}
+          <div aria-hidden="true" className="absolute inset-0 bg-linear-to-tr from-black/70 via-black/45 to-black/25" />
         </div>
 
         <Container>
@@ -71,13 +73,13 @@ export default function HomePage() {
                 Train. <span className="text-accent">Incubate.</span> Launch.
               </h1>
               <p className="mt-4 text-lg md:text-xl opacity-90">
-                One-year Diplomas & PG Diplomas, short trainings, and entrepreneurship programs — all under one roof in Ludhiana.
+                One-year Diplomas & PG Diplomas,industrial trainings, and entrepreneurship programs - all under one roof in Ludhiana.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Button size="lg" asChild>
                   <Link href="/apply"><GraduationCap className="mr-2 h-5 w-5" /> Apply</Link>
                 </Button>
-                <Button size="lg" variant="outline" asChild>
+                <Button size="lg" variant="outline" className="" asChild>
                   <Link href="/diplomas">View Diplomas <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
@@ -87,21 +89,28 @@ export default function HomePage() {
             </div>
 
             {/* Quick Facts card */}
-            <div className="rounded-xl border border-border bg-card/95 backdrop-blur p-5">
-              <h3 className="text-center text-xl font-semibold">Programs at STEP</h3>
+            <div className="rounded-xl border border-border bg-card/60 backdrop-blur-sm p-5 shadow-2xl ring-2 ring-black/10">
+              <h3 className="text-center text-xl font-semibold text-primary">Programs at STEP</h3>
               <div className="mt-5 grid gap-4">
                 <Block title="One-Year Diplomas" items={["DCA", "DBA", "Fashion", "CAD-CNC"]} />
                 <Block title="PG Diplomas" items={["PGDCA", "PGDBA"]} />
-                <Block title="Short Trainings" items={["Python", "Django", "Web Design"]} />
+                <Block title="Industrial Trainings" items={["Python", "Django", "Web Design"]} />
                 <Block title="Entrepreneurship" items={["EAC", "EDP"]} />
               </div>
-              <p className="mt-3 text-center text-xs text-muted-foreground">
-                Details as per official sections; see Diplomas, Results & Entrepreneurship pages.
-              </p>
+              {/* <p className="mt-3 text-center text-xs text-muted-foreground">
+              Details as per official sections; see Diplomas, Results & Entrepreneurship pages.
+              </p> */}
             </div>
           </div>
         </Container>
       </section>
+
+
+      {/* INSTITUTE OBJECTIVES */}
+      <ObjectivesBlock objectives={objectives} />
+
+      {/* TESTIMONIALS */}
+      <Testimonials testimonials={testimonials} />
 
       {/* DIPLOMA HIGHLIGHTS */}
       <section className="py-14">
@@ -114,9 +123,15 @@ export default function HomePage() {
           </div>
         </Container>
       </section>
+      {/* INCUBATOR TRUST */}
+      <IncubatorTrust incubator={incubator} />
+
+      {/* DIRECTOR MESSAGE */}
+      <DirectorStrip director={director} />
+
 
       {/* NOTICE BOARD + RESULTS */}
-      <section className="bg-brand-50/40 py-14">
+      {/* <section className="bg-brand-50/40 py-14">
         <Container>
           <div className="grid gap-8 lg:grid-cols-3">
             <div className="lg:col-span-2">
@@ -132,7 +147,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Results callout */}
+            {/* Results callout
             <div>
               <Card className="border-primary/20 bg-linear-to-br from-primary/5 to-brand-600/5">
                 <CardHeader>
@@ -151,7 +166,7 @@ export default function HomePage() {
             </div>
           </div>
         </Container>
-      </section>
+      </section> */}
 
       {/* ENTREPRENEURSHIP */}
       <section className="py-14">
@@ -260,7 +275,9 @@ function Block({ title, items }: { title: string; items: string[] }) {
       <h4 className="font-medium text-primary">{title}</h4>
       <div className="flex flex-wrap gap-2">
         {items.map((i) => (
-          <Badge key={i} variant="secondary">{i}</Badge>
+          <span key={i} className="inline-flex items-center rounded-md bg-brand-50 px-2 py-1 text-xs font-medium text-foreground">
+            {i}
+          </span>
         ))}
       </div>
     </div>

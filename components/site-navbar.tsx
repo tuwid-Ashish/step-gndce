@@ -61,7 +61,7 @@ export function SiteNavbar() {
                         {item.label}
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
-                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] bg-white md:grid-cols-2 lg:w-[600px]">
                           {item.children.map((child) => (
                             <li key={child.href}>
                               <NavigationMenuLink asChild>
@@ -84,16 +84,17 @@ export function SiteNavbar() {
                       </NavigationMenuContent>
                     </>
                   ) : (
-                    <Link href={item.href} legacyBehavior passHref>
-                      <NavigationMenuLink
+                    <NavigationMenuLink asChild>
+                      <Link
+                        href={item.href}
                         className={cn(
                           navigationMenuTriggerStyle(),
                           pathname === item.href && "bg-accent text-accent-foreground"
                         )}
                       >
                         {item.label}
-                      </NavigationMenuLink>
-                    </Link>
+                      </Link>
+                    </NavigationMenuLink>
                   )}
                 </NavigationMenuItem>
               ))}
@@ -127,7 +128,7 @@ export function SiteNavbar() {
               )
             ))}
 
-            <DropdownMenu>
+            {/* <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="gap-1">
                   <Globe className="h-4 w-4" />
@@ -142,7 +143,7 @@ export function SiteNavbar() {
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
           </div>
 
           {/* Mobile Menu */}
@@ -223,7 +224,7 @@ export function SiteNavbar() {
                         </Button>
                       ) : null
                     ))}
-                    <div className="flex items-center justify-between">
+                    {/* <div className="flex items-center justify-between">
                       <span className="text-sm text-muted-foreground">Language:</span>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -241,7 +242,7 @@ export function SiteNavbar() {
                           ))}
                         </DropdownMenuContent>
                       </DropdownMenu>
-                    </div>
+                    </div> */}
                   </div>
                 </nav>
               </SheetContent>

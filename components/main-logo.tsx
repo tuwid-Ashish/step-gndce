@@ -7,20 +7,26 @@ interface MainLogoProps {
 
 export function MainLogo({ className }: MainLogoProps) {
   return (
-    <Link 
-      href="/" 
+    <Link
+      href="/"
       className={cn(
-        "flex items-center space-x-2 text-foreground hover:opacity-80 transition-opacity",
+        "inline-flex items-center space-x-3 text-foreground hover:opacity-80 transition-opacity",
         className
       )}
     >
-      {/* TODO: Replace with actual logo image when available */}
-      <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
-        <span className="text-primary-foreground font-bold text-sm">S</span>
+      {/* logo */}
+      <div className="h-12 w-12 rounded-f overflow-hidden shrink-0">
+        <img
+          src="https://stepgndec.com/wp-content/themes/STEPv8/img/stepback.png"
+          alt="STEP logo"
+          className="block w-full h-full object-cover"
+        />
       </div>
-      <div className="flex flex-col">
-        <span className="font-bold text-lg leading-none">STEP</span>
-        <span className="text-xs text-muted-foreground leading-none">Institute</span>
+
+      {/* text, vertically centered with the logo */}
+      <div className="flex flex-col leading-none">
+        <span className="font-bold text-lg">STEP</span>
+        <span className="text-xs text-muted-foreground">GNDEC</span>
       </div>
     </Link>
   )
