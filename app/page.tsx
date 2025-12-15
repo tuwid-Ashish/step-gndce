@@ -60,10 +60,12 @@ export default function HomePage() {
             title="STEP GNDEC Background Video" 
             allow="autoplay; encrypted-media" 
             aria-hidden="true"
+
           />
           {/* Gradient scrim for readability */}
           <div aria-hidden="true" className="absolute inset-0 bg-linear-to-tr from-black/70 via-black/45 to-black/25" />
         </div>
+
 
         <Container>
           <div className="py-16 lg:py-24 grid items-center gap-8 md:grid-cols-2">
