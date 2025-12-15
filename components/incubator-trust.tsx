@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Lightbulb, Rocket, Users, Award } from "lucide-react"
 import Link from "next/link"
 
+
 interface IncubatorTrustProps {
   incubator: {
     tagline: string
