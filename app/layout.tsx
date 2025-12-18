@@ -5,6 +5,7 @@ import "./globals.css";
 import { SiteNavbar } from "@/components/site-navbar";
 import { SiteFooter } from "@/components/site-footer";
 import { siteConfig } from "@/components/site-config";
+import { AuthProvider } from "@/components/auth-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -65,11 +66,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased bg-background text-foreground`}
       >
-        <div className="relative flex min-h-screen flex-col">
-          <SiteNavbar />
-          <main className="flex-1">{children}</main>
-          <SiteFooter />
-        </div>
+        <AuthProvider>
+          <div className="relative flex min-h-screen flex-col">
+            <SiteNavbar />
+            <main className="flex-1">{children}</main>
+            <SiteFooter />
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );

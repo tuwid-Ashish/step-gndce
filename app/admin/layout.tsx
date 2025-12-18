@@ -1,14 +1,21 @@
+import { auth } from "@/lib/auth"
+import { redirect } from "next/navigation"
 import { Container } from "@/components/container"
 import { MainLogo } from "@/components/main-logo"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Shield, Settings, LogOut } from "lucide-react"
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const session = await auth()
+
+  if (!session) {
+    redirect("/login")
+  }
   return (
     <div className="min-h-screen bg-background">
       {/* Admin Header */}

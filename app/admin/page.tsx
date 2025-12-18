@@ -1,6 +1,9 @@
+import { auth } from "@/lib/auth"
+import { redirect } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { FileText, Users, Building2, BookOpen, AlertCircle } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { FileText, Users, Building2, BookOpen, AlertCircle, LogOut, User, Shield } from "lucide-react"
 import Link from "next/link"
 
 export const metadata = {
@@ -8,14 +11,35 @@ export const metadata = {
   description: "STEP Institute administration dashboard"
 }
 
-export default function AdminDashboard() {
+export default async function AdminDashboard() {
+  const session = await auth()
+
+  if (!session) {
+    redirect("/login")
+  }
+
+  const { user } = session
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-        <p className="text-muted-foreground">
-          Welcome to the STEP Institute administration panel
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+          <p className="text-muted-foreground">
+            Welcome back, {user.name} • <Badge variant="secondary"><Shield className="mr-1 h-3 w-3" />{user.role.replace("_", " ")}</Badge>
+          </p>
+        </div>
+        <form
+          action={async () => {
+            "use server"
+            const { signOut } = await import("@/lib/auth")
+            await signOut({ redirectTo: "/login" })
+          }}
+        >
+          <Button variant="outline" type="submit">
+            <LogOut className="mr-2 h-4 w-4" />
+            Sign Out
+          </Button>
+        </form>
       </div>
 
       {/* Quick Stats */}

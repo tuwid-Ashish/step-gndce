@@ -12,7 +12,8 @@
 
 # testing
 /coverage
-
+public/drone-footage-raw.mp4
+public/drone-footage.mp4
 # next.js
 /.next/
 /out/

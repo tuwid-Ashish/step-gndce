@@ -1,0 +1,147 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum UserRole {
+  SUPER_ADMIN
+  ACADEMIC_STAFF
+  CONTENT_EDITOR
+}
+
+enum NoticeCategory {
+  GENERAL
+  URGENT
+  ADMISSION
+  EXAM
+  RESULT
+  EVENT
+}
+
+// ============================================
+// MODELS
+// ============================================
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         UserRole @default(CONTENT_EDITOR)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  blogs Blog[]
+
+  @@map("users")
+}
+
+model Course {
+  id          String   @id @default(cuid())
+  title       String
+  code        String   @unique
+  duration    String // e.g., "1 Year", "6 Months"
+  syllabusUrl String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  results Result[]
+
+  @@map("courses")
+}
+
+model Faculty {
+  id          String   @id @default(cuid())
+  name        String
+  designation String
+  department  String
+  email       String   @unique
+  photoUrl    String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("faculty")
+}
+
+model Notice {
+  id            String         @id @default(cuid())
+  title         String
+  content       String         @db.Text
+  category      NoticeCategory @default(GENERAL)
+  attachmentUrl String?
+  isPinned      Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([isPinned, createdAt])
+  @@map("notices")
+}
+
+model Result {
+  id          String   @id @default(cuid())
+  rollNumber  String
+  studentName String
+  courseId    String
+  semester    Int
+  sgpa        Float?
+  cgpa        Float?
+  resultData  Json // Store subject-wise marks as JSON
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([rollNumber, courseId, semester])
+  @@index([rollNumber])
+  @@map("results")
+}
+
+model Blog {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  content     String    @db.Text // Rich text content
+  coverImage  String?
+  publishedAt DateTime?
+  authorId    String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([slug])
+  @@index([publishedAt])
+  @@map("blogs")
+}
+
+model Event {
+  id               String   @id @default(cuid())
+  title            String
+  description      String   @db.Text
+  date             DateTime
+  venue            String
+  registrationLink String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([date])
+  @@map("events")
+}
