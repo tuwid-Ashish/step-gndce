@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 /* 2) Plugins (v4 style) */
-/* @plugin "@tailwindcss/typography";   prose classes for notes/board/results */
+@plugin "@tailwindcss/typography";   /* prose classes for blog content */
 @import "tw-animate-css";            /* shadcn: replace tailwindcss-animate */
 
 /* 3) Optional: add extra scan sources if needed (MD/MDX, external UI lib, etc.) */

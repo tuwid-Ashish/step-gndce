@@ -1,53 +1,100 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { auth } from "@/lib/auth"
+import { redirect } from "next/navigation"
+import { prisma } from "@/lib/prisma"
 import { Button } from "@/components/ui/button"
-import { Plus, Building2 } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { StartupList } from "@/components/startup-list"
+import { Building2, Rocket, Award } from "lucide-react"
+import Link from "next/link"
 
-export const metadata = {
-  title: "Manage Startups",
-  description: "Manage startup profiles and incubation data"
-}
+export default async function StartupsManagementPage() {
+  const session = await auth()
 
-export default function ManageStartupsPage() {
+  if (!session?.user || session.user.role === "CONTENT_EDITOR") {
+    redirect("/admin")
+  }
+
+  const startups = await prisma.startup.findMany({
+    orderBy: { createdAt: "desc" },
+  })
+
+  const companies = startups.filter((s) => s.type === "COMPANY")
+  const startupsOnly = startups.filter((s) => s.type === "STARTUP")
+  const graduated = startups.filter((s) => s.status === "GRADUATED")
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Manage Startups</h1>
+          <h1 className="text-3xl font-bold">Startups & Companies</h1>
           <p className="text-muted-foreground">
-            Manage startup profiles and incubation information
+            Manage incubated startups and established companies
           </p>
         </div>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          New Startup
+        <Button asChild>
+          <Link href="/admin/startups/new">Add Startup/Company</Link>
         </Button>
       </div>
 
-      {/* Placeholder */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Building2 className="h-5 w-5" />
-            Startup Management
-          </CardTitle>
-          <CardDescription>
-            Startup portfolio management interface will be available soon
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="text-center py-8">
-            <h3 className="text-lg font-medium mb-4">Coming Soon</h3>
-            <ul className="text-left max-w-md mx-auto space-y-2 text-sm text-muted-foreground">
-              <li>• Startup profile creation and editing</li>
-              <li>• Incubation status tracking</li>
-              <li>• Progress milestone management</li>
-              <li>• Funding and investment tracking</li>
-              <li>• Mentor assignment and communication</li>
-              <li>• Performance analytics and reports</li>
-            </ul>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Stats */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Ventures</CardTitle>
+            <Building2 className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{startups.length}</div>
+            <p className="text-xs text-muted-foreground">
+              {startupsOnly.length} startups, {companies.length} companies
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Startups</CardTitle>
+            <Rocket className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-blue-600">
+              {startupsOnly.length}
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Graduated</CardTitle>
+            <Award className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-green-600">
+              {graduated.length}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* List */}
+      <Tabs defaultValue="all" className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="all">All ({startups.length})</TabsTrigger>
+          <TabsTrigger value="startups">Startups ({startupsOnly.length})</TabsTrigger>
+          <TabsTrigger value="companies">Companies ({companies.length})</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="all" className="space-y-4">
+          <StartupList startups={startups} />
+        </TabsContent>
+
+        <TabsContent value="startups" className="space-y-4">
+          <StartupList startups={startupsOnly} />
+        </TabsContent>
+
+        <TabsContent value="companies" className="space-y-4">
+          <StartupList startups={companies} />
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }

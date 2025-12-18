@@ -85,6 +85,18 @@ export default async function AdminLayout({
                 Content Management
               </h3>
               <Link 
+                href="/admin/courses" 
+                className="block px-3 py-2 rounded-md text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
+              >
+                Courses & Diplomas
+              </Link>
+              <Link 
+                href="/admin/faculty" 
+                className="block px-3 py-2 rounded-md text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
+              >
+                Faculty & Staff
+              </Link>
+              <Link 
                 href="/admin/notices" 
                 className="block px-3 py-2 rounded-md text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
               >
@@ -97,10 +109,16 @@ export default async function AdminLayout({
                 Blog Posts
               </Link>
               <Link 
+                href="/admin/events" 
+                className="block px-3 py-2 rounded-md text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
+              >
+                Events
+              </Link>
+              <Link 
                 href="/admin/startups" 
                 className="block px-3 py-2 rounded-md text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
               >
-                Startups
+                Startups & Companies
               </Link>
             </div>
 

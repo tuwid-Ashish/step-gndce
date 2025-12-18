@@ -7,90 +7,38 @@ export interface NavItem {
 
 export const nav = {
   main: [
-    {
-      label: "Home",
-      href: "/",
-      description: "Welcome to STEP — shaping careers in tech, trades, and startups"
-    },
+    { label: "Home", href: "/", description: "STEP Institute homepage" },
+
     {
       label: "Academics",
       href: "/academics",
-      description: "Industry-aligned courses, diplomas, and student services",
+      description: "Academics details",
       children: [
-        {
-          label: "Diploma Programs",
-          href: "/diplomas",
-          description: "Short-term professional diplomas designed for job readiness"
-        },
-        {
-          label: "Results",
-          href: "/results",
-          description: "Latest exam results and academic notices"
-        },
-        {
-          label: "Notice Board",
-          href: "/notices",
-          description: "Campus announcements, schedules, and circulars"
-        },
-        {
-          label: "Industrial Training",
-          href: "/industrial-training",
-          description: "Internships, industry projects, and placement support"
-        }
+        { label: "Diplomas", href: "/diplomas", description: "Professional diploma programs" },
+        { label: "Industrial Training", href: "/industrial-trainings", description: "Short-term training programs" },
+        { label: "Results", href: "/results", description: "Check exam results and scores" },
+        { label: "Notice Board", href: "/notices", description: "Latest announcements and updates" },
       ]
     },
     {
       label: "Entrepreneurship",
       href: "/entrepreneurship",
-      description: "Startup incubation, mentoring, and funding support",
+      description: "Startup incubation programs",
       children: [
-        {
-          label: "Overview",
-          href: "/entrepreneurship",
-          description: "Our entrepreneurship mission, services, and impact"
-        },
-        {
-          label: "Incubation & Programs",
-          href: "/incubation",
-          description: "Structured incubation, mentoring, and accelerator tracks"
-        },
-        {
-          label: "Events & Workshops",
-          href: "/events",
-          description: "Hackathons, masterclasses, and startup bootcamps"
-        },
-        {
-          label: "Startups & Support",
-          href: "/startups",
-          description: "Portfolio startups, resources, and assistance programs"
-        }
+        { label: "Overview", href: "/entrepreneurship", description: "Entrepreneurship programs overview" },
+        { label: "Startup Incubation", href: "/incubation", description: "Startup incubation and support programs" },
+        { label: "Events", href: "/events", description: "Entrepreneurship events and workshops" },
+        { label: "Startups & Support", href: "/startups", description: "Our incubated startup portfolio" },
       ]
     },
-    {
-      label: "Faculty & Staff",
-      href: "/faculty",
-      description: "Meet the educators and support team driving STEP"
-    },
-    {
-      label: "Blog",
-      href: "/blog",
-      description: "Insights, success stories, and industry updates"
-    },
-    {
-      label: "Contact",
-      href: "/contact",
-      description: "Reach out for admissions, partnerships, or media queries"
-    }
+    { label: "Faculty & Staff", href: "/faculty", description: "Meet our faculty and staff" },
+    { label: "Blog", href: "/blog", description: "Industry insights and updates" },
+    { label: "Contact", href: "/contact", description: "Get in touch with us" },
   ],
   ctas: [
-    { label: "Apply Now", href: "/apply", variant: "default" as const },
-    {
-      label: "Chat on WhatsApp",
-      href: "https://wa.me/919876543210",
-      variant: "ghost" as const,
-      icon: "whatsapp" as const
-    }
-  ]
+    { label: "Apply", href: "/apply", variant: "default" as const },
+    { label: "WhatsApp", href: "https://wa.me/919876543210", variant: "ghost" as const, icon: "whatsapp" as const },
+  ],
 }
 
 export const footerLinks = {

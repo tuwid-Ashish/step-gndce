@@ -1,120 +1,163 @@
-import { Container } from "@/components/container"
-import { NoticeCard } from "@/components/notice-card"
-import { UpdateTag } from "@/components/update-tag"
-import { Notice } from "@/types/notices"
-import { Bell } from "lucide-react"
+import { prisma } from "@/lib/prisma"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Bell, Pin, Calendar, FileText } from "lucide-react"
+import Link from "next/link"
+import { format } from "date-fns"
 
 export const metadata = {
-  title: "Notice Board",
-  description: "Latest announcements and updates from STEP Institute"
+  title: "Notices & Announcements | STEP-GNDEC",
+  description: "Stay updated with latest notices and announcements"
 }
 
-// Mock data - replace with API call
-const mockNotices: Notice[] = [
-  {
-    id: "1",
-    title: "New Batch for Full Stack Development Course Starting Soon",
-    slug: "new-fullstack-batch-2024",
-    excerpt: "We are excited to announce the launch of our new Full Stack Development batch starting from December 1st, 2024. Limited seats available.",
-    pinned: true,
-    date: "2024-10-25",
-    publishedAt: "2024-10-25T10:00:00Z"
-  },
-  {
-    id: "2", 
-    title: "Startup Pitch Competition - Register Now",
-    slug: "startup-pitch-competition-2024",
-    excerpt: "Join our annual startup pitch competition with a prize pool of ₹5 lakhs. Open to all students and alumni. Registration deadline: November 15th.",
-    pinned: true,
-    date: "2024-10-20",
-    publishedAt: "2024-10-20T14:00:00Z"
-  },
-  {
-    id: "3",
-    title: "Guest Lecture by Industry Expert on AI/ML Trends",
-    slug: "guest-lecture-ai-ml-trends",
-    excerpt: "Don't miss our upcoming guest lecture by Dr. Sarah Johnson, AI researcher at Google, on emerging trends in artificial intelligence and machine learning.",
-    pinned: false,
-    date: "2024-10-18",
-    publishedAt: "2024-10-18T09:00:00Z"
-  },
-  {
-    id: "4",
-    title: "Placement Drive Results - October 2024",
-    slug: "placement-drive-results-october-2024",
-    excerpt: "We are pleased to share the results of our October placement drive. 85% of our students received job offers from top companies.",
-    pinned: false,
-    date: "2024-10-15",
-    publishedAt: "2024-10-15T16:00:00Z"
-  },
-  {
-    id: "5",
-    title: "Workshop on Digital Marketing for Startups",
-    slug: "digital-marketing-workshop-startups",
-    excerpt: "Learn effective digital marketing strategies for your startup in this hands-on workshop. Free for all incubated startups.",
-    pinned: false,
-    date: "2024-10-10",
-    publishedAt: "2024-10-10T11:00:00Z"
-  }
-]
+export default async function NoticesPage() {
+  const notices = await prisma.notice.findMany({
+    where: {
+      publishedAt: {
+        lte: new Date()
+      }
+    },
+    orderBy: [
+      { isPinned: "desc" },
+      { publishedAt: "desc" }
+    ]
+  })
 
-export default function NoticesPage() {
-  const pinnedNotices = mockNotices.filter(notice => notice.pinned)
-  const regularNotices = mockNotices.filter(notice => !notice.pinned)
+  const pinnedNotices = notices.filter(n => n.isPinned)
+  const regularNotices = notices.filter(n => !n.isPinned)
+
+  const getCategoryColor = (category: string) => {
+    const colors = {
+      ADMISSION: "bg-blue-500/10 text-blue-700 dark:text-blue-400",
+      EXAMINATION: "bg-purple-500/10 text-purple-700 dark:text-purple-400",
+      ACADEMIC: "bg-green-500/10 text-green-700 dark:text-green-400",
+      GENERAL: "bg-gray-500/10 text-gray-700 dark:text-gray-400",
+      PLACEMENT: "bg-orange-500/10 text-orange-700 dark:text-orange-400"
+    }
+    return colors[category as keyof typeof colors] || colors.GENERAL
+  }
 
   return (
-    <div className="py-16">
-      <Container>
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
-              <Bell className="h-8 w-8" />
-              Notice Board
-            </h1>
-            <p className="text-xl text-muted-foreground">
-              Stay updated with the latest announcements and important information
-            </p>
-          </div>
+    <div className="min-h-screen py-12">
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="mb-12 text-center">
+          <Badge className="mb-4" variant="outline">
+            <Bell className="mr-2 h-3 w-3" />
+            Latest Updates
+          </Badge>
+          <h1 className="mb-4 text-4xl font-bold md:text-5xl">
+            Notices & Announcements
+          </h1>
+          <p className="mx-auto max-w-2xl text-muted-foreground">
+            Stay informed with the latest notices, announcements, and important updates
+            from STEP Institute.
+          </p>
+        </div>
 
-          {/* Pinned Notices */}
-          {pinnedNotices.length > 0 && (
-            <div className="mb-12">
-              <div className="flex items-center gap-2 mb-6">
-                <h2 className="text-2xl font-bold">Pinned Notices</h2>
-                <UpdateTag variant="info">Important</UpdateTag>
-              </div>
-              <div className="grid gap-6">
-                {pinnedNotices.map((notice) => (
-                  <NoticeCard key={notice.id} notice={notice} />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Regular Notices */}
-          <div>
-            <h2 className="text-2xl font-bold mb-6">All Notices</h2>
-            <div className="grid gap-6">
-              {regularNotices.map((notice) => (
-                <NoticeCard key={notice.id} notice={notice} />
+        {/* Pinned Notices */}
+        {pinnedNotices.length > 0 && (
+          <div className="mb-8">
+            <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold">
+              <Pin className="h-6 w-6 text-primary" />
+              Pinned Notices
+            </h2>
+            <div className="grid gap-4 md:grid-cols-2">
+              {pinnedNotices.map((notice) => (
+                <Card
+                  key={notice.id}
+                  className="border-primary/50 bg-primary/5"
+                >
+                  <CardHeader>
+                    <div className="mb-2 flex items-center justify-between">
+                      <Badge className={getCategoryColor(notice.category)}>
+                        {notice.category}
+                      </Badge>
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <Calendar className="h-3 w-3" />
+                        {format(notice.publishedAt, "MMM d, yyyy")}
+                      </div>
+                    </div>
+                    <h3 className="text-lg font-bold">
+                      {notice.title}
+                    </h3>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {notice.excerpt && (
+                      <p className="text-sm text-muted-foreground">
+                        {notice.excerpt}
+                      </p>
+                    )}
+                    <Button variant="outline" size="sm" asChild>
+                      <Link href={`/notices/${notice.slug}`}>
+                        Read More
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </div>
+        )}
 
-          {/* TODO: Add pagination */}
-          <div className="bg-brand-50 rounded-lg p-6 mt-12">
-            <h2 className="text-xl font-semibold mb-4">Coming Soon</h2>
-            <ul className="space-y-2 text-muted-foreground">
-              <li>• Search and filter notices by category</li>
-              <li>• Email notifications for important notices</li>
-              <li>• Archive of past notices</li>
-              <li>• RSS feed for notice updates</li>
-              <li>• Mobile app push notifications</li>
-              <li>• Notice subscription preferences</li>
-            </ul>
+        {/* Regular Notices */}
+        {regularNotices.length > 0 && (
+          <div>
+            <h2 className="mb-4 text-2xl font-bold">All Notices</h2>
+            <div className="space-y-3">
+              {regularNotices.map((notice) => (
+                <Card
+                  key={notice.id}
+                  className="group transition-all hover:shadow-md"
+                >
+                  <CardContent className="flex items-center gap-4 p-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                      <FileText className="h-6 w-6 text-primary" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-1 flex flex-wrap items-center gap-2">
+                        <Badge className={getCategoryColor(notice.category)}>
+                          {notice.category}
+                        </Badge>
+                        <span className="text-xs text-muted-foreground">
+                          {format(notice.publishedAt, "MMM d, yyyy")}
+                        </span>
+                      </div>
+                      <h3 className="mb-1 font-semibold group-hover:text-primary">
+                        {notice.title}
+                      </h3>
+                      {notice.excerpt && (
+                        <p className="line-clamp-1 text-sm text-muted-foreground">
+                          {notice.excerpt}
+                        </p>
+                      )}
+                    </div>
+                    <Button variant="ghost" size="sm" asChild>
+                      <Link href={`/notices/${notice.slug}`}>
+                        View
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
-        </div>
-      </Container>
+        )}
+
+        {/* Empty State */}
+        {notices.length === 0 && (
+          <Card>
+            <CardContent className="py-16 text-center">
+              <Bell className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
+              <h3 className="mb-2 text-xl font-semibold">No Notices Available</h3>
+              <p className="text-muted-foreground">
+                Check back soon for important announcements and updates.
+              </p>
+            </CardContent>
+          </Card>
+        )}
+      </div>
     </div>
   )
 }

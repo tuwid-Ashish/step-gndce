@@ -1,161 +1,190 @@
 import { Container } from "@/components/container"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 import { FacultyCard } from "@/components/faculty-card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Filter, Users } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { prisma } from "@/lib/prisma"
+import { Users, GraduationCap, Briefcase } from "lucide-react"
 
 export const metadata = {
-  title: "Faculty & Staff",
-  description: "Meet our experienced faculty and staff at STEP Institute"
+  title: "Faculty & Staff - STEP Institute",
+  description: "Meet our experienced faculty members - diploma educators and industrial training instructors at STEP Institute.",
 }
 
-// Mock faculty data
-const mockFaculty = [
-  {
-    slug: "dr-rajesh-kumar",
-    name: "Dr. Rajesh Kumar",
-    title: "Program Director & Associate Professor",
-    dept: "Computer Science",
-    email: "rajesh.kumar@step-institute.edu",
-    specialization: "Web Development, Software Engineering, Database Systems"
-  },
-  {
-    slug: "prof-priya-sharma",
-    name: "Prof. Priya Sharma",
-    title: "Assistant Professor",
-    dept: "Data Science",
-    email: "priya.sharma@step-institute.edu",
-    specialization: "Machine Learning, Data Analytics, Python Programming"
-  },
-  {
-    slug: "mr-arjun-singh",
-    name: "Mr. Arjun Singh",
-    title: "Senior Instructor",
-    dept: "Digital Marketing",
-    email: "arjun.singh@step-institute.edu",
-    specialization: "SEO, Social Media Marketing, Content Strategy"
-  },
-  {
-    slug: "dr-meera-patel",
-    name: "Dr. Meera Patel",
-    title: "Professor",
-    dept: "Business Administration",
-    email: "meera.patel@step-institute.edu",
-    specialization: "Strategic Management, Entrepreneurship, Leadership"
-  },
-  {
-    slug: "mr-vikram-gupta",
-    name: "Mr. Vikram Gupta",
-    title: "Industry Expert",
-    dept: "Cybersecurity",
-    email: "vikram.gupta@step-institute.edu",
-    specialization: "Network Security, Ethical Hacking, Risk Assessment"
-  },
-  {
-    slug: "ms-kavita-reddy",
-    name: "Ms. Kavita Reddy",
-    title: "Assistant Professor",
-    dept: "Mobile Development",
-    email: "kavita.reddy@step-institute.edu",
-    specialization: "iOS Development, Android Development, React Native"
-  }
-]
+export default async function FacultyPage() {
+  // Fetch all active faculty
+  const allFaculty = await prisma.faculty.findMany({
+    where: { isActive: true },
+    orderBy: { name: "asc" },
+  })
 
-export default function FacultyPage() {
+  // Filter by type
+  const diplomaFaculty = allFaculty.filter((f) => f.teachesDiploma && !f.teachesTraining)
+  const trainingFaculty = allFaculty.filter((f) => f.teachesTraining && !f.teachesDiploma)
+  const bothFaculty = allFaculty.filter((f) => f.teachesDiploma && f.teachesTraining)
+
+  const breadcrumbItems = [
+    { label: "Home", href: "/" },
+    { label: "Faculty & Staff", href: "/faculty" },
+  ]
+
   return (
     <div className="py-16">
       <Container>
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
+          <Breadcrumbs items={breadcrumbItems} />
+
+          {/* Hero Section */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4 flex items-center justify-center gap-3">
-              <Users className="h-8 w-8" />
-              Faculty & Staff
-            </h1>
-            <p className="text-xl text-muted-foreground">
-              Learn from experienced professionals and industry experts dedicated to your success
+            <h1 className="text-4xl font-bold mb-4">Faculty & Staff</h1>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Meet our dedicated team of experienced educators and industry experts who are committed to shaping the future of our students.
             </p>
           </div>
 
-          {/* Filters */}
-          <div className="bg-muted/30 rounded-lg p-6 mb-12">
-            <div className="flex items-center gap-2 mb-4">
-              <Filter className="h-5 w-5 text-muted-foreground" />
-              <h2 className="font-semibold">Filter Faculty</h2>
+          {/* Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div className="bg-linear-to-br from-brand-50 to-brand-100 dark:from-brand-950 dark:to-brand-900 rounded-lg p-6 text-center">
+              <Users className="h-12 w-12 mx-auto mb-3 text-brand-600 dark:text-brand-400" />
+              <div className="text-3xl font-bold mb-1">{allFaculty.length}</div>
+              <div className="text-sm text-muted-foreground">Total Faculty</div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Department</label>
-                <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder="All departments" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Departments</SelectItem>
-                    <SelectItem value="computer-science">Computer Science</SelectItem>
-                    <SelectItem value="data-science">Data Science</SelectItem>
-                    <SelectItem value="digital-marketing">Digital Marketing</SelectItem>
-                    <SelectItem value="business-administration">Business Administration</SelectItem>
-                    <SelectItem value="cybersecurity">Cybersecurity</SelectItem>
-                    <SelectItem value="mobile-development">Mobile Development</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Designation</label>
-                <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder="All designations" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Designations</SelectItem>
-                    <SelectItem value="professor">Professor</SelectItem>
-                    <SelectItem value="associate-professor">Associate Professor</SelectItem>
-                    <SelectItem value="assistant-professor">Assistant Professor</SelectItem>
-                    <SelectItem value="instructor">Instructor</SelectItem>
-                    <SelectItem value="industry-expert">Industry Expert</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+            <div className="bg-linear-to-br from-blue-50 to-indigo-100 dark:from-blue-950 dark:to-indigo-900 rounded-lg p-6 text-center">
+              <GraduationCap className="h-12 w-12 mx-auto mb-3 text-blue-600 dark:text-blue-400" />
+              <div className="text-3xl font-bold mb-1">{diplomaFaculty.length + bothFaculty.length}</div>
+              <div className="text-sm text-muted-foreground">Diploma Educators</div>
+            </div>
+            <div className="bg-linear-to-br from-orange-50 to-amber-100 dark:from-orange-950 dark:to-amber-900 rounded-lg p-6 text-center">
+              <Briefcase className="h-12 w-12 mx-auto mb-3 text-orange-600 dark:text-orange-400" />
+              <div className="text-3xl font-bold mb-1">{trainingFaculty.length + bothFaculty.length}</div>
+              <div className="text-sm text-muted-foreground">Training Instructors</div>
             </div>
           </div>
 
-          {/* Faculty Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mockFaculty.map((faculty) => (
-              <FacultyCard key={faculty.slug} {...faculty} />
-            ))}
-          </div>
+          {/* Faculty Tabs */}
+          <Tabs defaultValue="all" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 mb-8">
+              <TabsTrigger value="all">
+                All Faculty ({allFaculty.length})
+              </TabsTrigger>
+              <TabsTrigger value="diploma">
+                Diploma ({diplomaFaculty.length + bothFaculty.length})
+              </TabsTrigger>
+              <TabsTrigger value="training">
+                Training ({trainingFaculty.length + bothFaculty.length})
+              </TabsTrigger>
+              <TabsTrigger value="both">
+                Both ({bothFaculty.length})
+              </TabsTrigger>
+            </TabsList>
 
-          {/* Stats Section */}
-          <div className="bg-brand-50 rounded-lg p-8 mt-12">
-            <h2 className="text-2xl font-bold text-center mb-8">Our Faculty Excellence</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-              <div>
-                <div className="text-3xl font-bold text-primary mb-2">25+</div>
-                <div className="text-muted-foreground">Expert Faculty Members</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-primary mb-2">200+</div>
-                <div className="text-muted-foreground">Years Combined Experience</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-primary mb-2">15+</div>
-                <div className="text-muted-foreground">Industry Partnerships</div>
-              </div>
-            </div>
-          </div>
+            <TabsContent value="all" className="space-y-6">
+              {allFaculty.length === 0 ? (
+                <div className="text-center py-12 text-muted-foreground">
+                  No faculty members found.
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {allFaculty.map((faculty) => (
+                    <FacultyCard
+                      key={faculty.id}
+                      slug={faculty.slug}
+                      name={faculty.name}
+                      title={faculty.designation}
+                      dept={faculty.department}
+                      specialization={faculty.specialization || ""}
+                    />
+                  ))}
+                </div>
+              )}
+            </TabsContent>
 
-          {/* TODO: Add more sections */}
-          <div className="bg-brand-50 rounded-lg p-6 mt-12">
-            <h2 className="text-xl font-semibold mb-4">Coming Soon</h2>
-            <ul className="space-y-2 text-muted-foreground">
-              <li>• Faculty research publications and achievements</li>
-              <li>• Industry consulting and project work</li>
-              <li>• Student mentorship success stories</li>
-              <li>• Professional development programs</li>
-              <li>• Guest lecture series and workshops</li>
-              <li>• Faculty-industry collaboration projects</li>
-            </ul>
-          </div>
+            <TabsContent value="diploma" className="space-y-6">
+              {diplomaFaculty.length + bothFaculty.length === 0 ? (
+                <div className="text-center py-12 text-muted-foreground">
+                  No diploma faculty found.
+                </div>
+              ) : (
+                <>
+                  <div className="mb-6">
+                    <h2 className="text-2xl font-bold mb-2">Diploma Educators</h2>
+                    <p className="text-muted-foreground">
+                      Our diploma faculty members provide comprehensive education in year-long diploma programs.
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[...bothFaculty, ...diplomaFaculty].map((faculty) => (
+                      <FacultyCard
+                        key={faculty.id}
+                        slug={faculty.slug}
+                        name={faculty.name}
+                        title={faculty.designation}
+                        dept={faculty.department}
+                        specialization={faculty.specialization || ""}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </TabsContent>
+
+            <TabsContent value="training" className="space-y-6">
+              {trainingFaculty.length + bothFaculty.length === 0 ? (
+                <div className="text-center py-12 text-muted-foreground">
+                  No training instructors found.
+                </div>
+              ) : (
+                <>
+                  <div className="mb-6">
+                    <h2 className="text-2xl font-bold mb-2">Training Instructors</h2>
+                    <p className="text-muted-foreground">
+                      Our training instructors deliver intensive industrial training programs focused on practical skills.
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[...bothFaculty, ...trainingFaculty].map((faculty) => (
+                      <FacultyCard
+                        key={faculty.id}
+                        slug={faculty.slug}
+                        name={faculty.name}
+                        title={faculty.designation}
+                        dept={faculty.department}
+                        specialization={faculty.specialization || ""}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </TabsContent>
+
+            <TabsContent value="both" className="space-y-6">
+              {bothFaculty.length === 0 ? (
+                <div className="text-center py-12 text-muted-foreground">
+                  No faculty members teaching both diploma and training.
+                </div>
+              ) : (
+                <>
+                  <div className="mb-6">
+                    <h2 className="text-2xl font-bold mb-2">Dual Role Faculty</h2>
+                    <p className="text-muted-foreground">
+                      These faculty members teach both diploma courses and industrial training programs, bringing comprehensive expertise.
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {bothFaculty.map((faculty) => (
+                      <FacultyCard
+                        key={faculty.id}
+                        slug={faculty.slug}
+                        name={faculty.name}
+                        title={faculty.designation}
+                        dept={faculty.department}
+                        specialization={faculty.specialization || ""}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </TabsContent>
+          </Tabs>
         </div>
       </Container>
     </div>

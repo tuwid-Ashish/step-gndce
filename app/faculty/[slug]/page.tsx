@@ -4,116 +4,18 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Mail, Phone, MapPin, Calendar, Users, BookOpen, Award, ExternalLink } from "lucide-react"
+import { prisma } from "@/lib/prisma"
+import { 
+  Mail, 
+  Phone, 
+  GraduationCap, 
+  Award, 
+  Briefcase, 
+  CheckCircle,
+  Linkedin
+} from "lucide-react"
 import { notFound } from "next/navigation"
-
-// Type definitions
-interface Education {
-  degree: string
-  institution: string
-  year: string
-}
-
-interface Experience {
-  role: string
-  org: string
-  period: string
-}
-
-interface FacultyData {
-  name: string
-  title: string
-  dept: string
-  email: string
-  phone: string
-  office: string
-  specialization: string
-  bio: string
-  education: Education[]
-  experience: Experience[]
-  courses: string[]
-  achievements: string[]
-  publications: string[]
-}
-
-// Mock faculty data
-const mockFacultyData: Record<string, FacultyData> = {
-  "dr-rajesh-kumar": {
-    name: "Dr. Rajesh Kumar",
-    title: "Program Director & Associate Professor",
-    dept: "Computer Science",
-    email: "rajesh.kumar@step-institute.edu",
-    phone: "+91 9876543210",
-    office: "Room 301, CS Block",
-    specialization: "Web Development, Software Engineering, Database Systems",
-    bio: "Dr. Rajesh Kumar is an experienced educator and researcher with over 15 years in computer science education. He holds a Ph.D. in Computer Science from IIT Delhi and has published numerous papers in international journals. He specializes in web technologies, software engineering practices, and database management systems.",
-    education: [
-      { degree: "Ph.D. in Computer Science", institution: "IIT Delhi", year: "2008" },
-      { degree: "M.Tech in Software Engineering", institution: "NIT Warangal", year: "2004" },
-      { degree: "B.Tech in Computer Science", institution: "RVCE Bangalore", year: "2002" }
-    ],
-    experience: [
-      { role: "Program Director & Associate Professor", org: "STEP Institute", period: "2018 - Present" },
-      { role: "Assistant Professor", org: "STEP Institute", period: "2012 - 2018" },
-      { role: "Software Engineer", org: "Infosys Limited", period: "2008 - 2012" },
-      { role: "Junior Developer", org: "TCS", period: "2002 - 2008" }
-    ],
-    courses: [
-      "Web Development Fundamentals",
-      "Advanced JavaScript & Frameworks",
-      "Database Management Systems",
-      "Software Engineering Principles",
-      "Full Stack Development"
-    ],
-    achievements: [
-      "Best Faculty Award 2022",
-      "Published 25+ research papers",
-      "Industry Consultant for 5+ companies",
-      "Mentored 200+ successful graduates"
-    ],
-    publications: [
-      "Modern Web Development Practices (2023)",
-      "Database Optimization Techniques (2022)",
-      "Software Engineering in Practice (2021)"
-    ]
-  },
-  "prof-priya-sharma": {
-    name: "Prof. Priya Sharma",
-    title: "Assistant Professor",
-    dept: "Data Science",
-    email: "priya.sharma@step-institute.edu",
-    phone: "+91 9876543211",
-    office: "Room 205, DS Block",
-    specialization: "Machine Learning, Data Analytics, Python Programming",
-    bio: "Prof. Priya Sharma is a passionate educator and researcher in the field of data science. She holds an M.Tech in Data Science and has extensive experience in machine learning, data analytics, and Python programming. She is known for her innovative teaching methods and industry-relevant curriculum design.",
-    education: [
-      { degree: "M.Tech in Data Science", institution: "IIIT Hyderabad", year: "2015" },
-      { degree: "B.Tech in Information Technology", institution: "VIT Vellore", year: "2013" }
-    ],
-    experience: [
-      { role: "Assistant Professor", org: "STEP Institute", period: "2019 - Present" },
-      { role: "Data Scientist", org: "Analytics Corp", period: "2015 - 2019" },
-      { role: "Junior Data Analyst", org: "DataTech Solutions", period: "2013 - 2015" }
-    ],
-    courses: [
-      "Introduction to Data Science",
-      "Machine Learning Fundamentals",
-      "Python for Data Analysis",
-      "Statistical Analytics",
-      "Data Visualization"
-    ],
-    achievements: [
-      "Excellence in Teaching Award 2023",
-      "Led 10+ industry projects",
-      "Kaggle Competition Winner",
-      "Mentored 150+ students"
-    ],
-    publications: [
-      "Machine Learning Applications in Business (2023)",
-      "Data Analytics Best Practices (2022)"
-    ]
-  }
-}
+import Link from "next/link"
 
 interface FacultyDetailPageProps {
   params: {
@@ -122,24 +24,28 @@ interface FacultyDetailPageProps {
 }
 
 export async function generateMetadata({ params }: FacultyDetailPageProps) {
-  const faculty = mockFacultyData[params.slug]
+  const faculty = await prisma.faculty.findUnique({
+    where: { slug: params.slug },
+  })
   
   if (!faculty) {
     return {
-      title: "Faculty Not Found"
+      title: "Faculty Member Not Found"
     }
   }
 
   return {
-    title: `${faculty.name} - ${faculty.title}`,
-    description: `Learn about ${faculty.name}, ${faculty.title} at STEP Institute. Specializing in ${faculty.specialization}.`
+    title: `${faculty.name} - ${faculty.designation} - STEP Institute`,
+    description: faculty.bio || `${faculty.name}, ${faculty.designation} at STEP Institute. Specialization: ${faculty.specialization}`,
   }
 }
 
-export default function FacultyDetailPage({ params }: FacultyDetailPageProps) {
-  const faculty = mockFacultyData[params.slug]
+export default async function FacultyDetailPage({ params }: FacultyDetailPageProps) {
+  const faculty = await prisma.faculty.findUnique({
+    where: { slug: params.slug },
+  })
   
-  if (!faculty) {
+  if (!faculty || !faculty.isActive) {
     notFound()
   }
 
@@ -154,211 +60,224 @@ export default function FacultyDetailPage({ params }: FacultyDetailPageProps) {
       <Container>
         <div className="max-w-6xl mx-auto">
           <Breadcrumbs items={breadcrumbItems} />
-          
+
           {/* Hero Section */}
-          <div className="bg-linear-to-r from-primary/10 to-brand-600/10 rounded-lg p-8 mb-8">
-            <div className="flex flex-col lg:flex-row items-start gap-8">
-              <div className="w-32 h-32 bg-linear-to-br from-primary to-brand-600 rounded-full flex items-center justify-center text-white text-3xl font-bold">
-                {faculty.name.split(' ').map((n: string) => n[0]).join('')}
-              </div>
-              <div className="flex-1">
-                <h1 className="text-3xl font-bold mb-2">{faculty.name}</h1>
-                <p className="text-xl text-primary font-semibold mb-2">{faculty.title}</p>
-                <Badge variant="outline" className="mb-4">{faculty.dept}</Badge>
-                <p className="text-muted-foreground mb-4">{faculty.bio}</p>
-                <div className="flex flex-wrap gap-4 text-sm">
-                  <div className="flex items-center gap-2">
-                    <Mail className="h-4 w-4" />
-                    <a href={`mailto:${faculty.email}`} className="hover:text-primary">
-                      {faculty.email}
-                    </a>
+          <div className="bg-linear-to-br from-brand-50 to-brand-100 dark:from-brand-950 dark:to-brand-900 rounded-lg p-8 mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Photo and Basic Info */}
+              <div className="flex flex-col items-center text-center">
+                {faculty.photoUrl ? (
+                  <img
+                    src={faculty.photoUrl}
+                    alt={faculty.name}
+                    className="w-48 h-48 rounded-full object-cover mb-4 border-4 border-white shadow-lg"
+                  />
+                ) : (
+                  <div className="w-48 h-48 rounded-full bg-linear-to-br from-primary to-brand-600 flex items-center justify-center text-white text-4xl font-bold mb-4 border-4 border-white shadow-lg">
+                    {faculty.name.split(' ').map((n) => n[0]).join('')}
                   </div>
-                  <div className="flex items-center gap-2">
+                )}
+                
+                <h1 className="text-3xl font-bold mb-2">{faculty.name}</h1>
+                <p className="text-lg text-primary font-semibold mb-2">{faculty.designation}</p>
+                <p className="text-muted-foreground mb-4">{faculty.department}</p>
+
+                <div className="flex flex-wrap gap-2 justify-center mb-4">
+                  {faculty.teachesDiploma && (
+                    <Badge variant="default" className="flex items-center gap-1">
+                      <GraduationCap className="h-3 w-3" />
+                      Diploma Educator
+                    </Badge>
+                  )}
+                  {faculty.teachesTraining && (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      <Briefcase className="h-3 w-3" />
+                      Training Instructor
+                    </Badge>
+                  )}
+                </div>
+
+                <div className="flex gap-3 w-full">
+                  <Button className="flex-1" asChild>
+                    <a href={`mailto:${faculty.email}`}>
+                      <Mail className="h-4 w-4 mr-2" />
+                      Email
+                    </a>
+                  </Button>
+                  {faculty.linkedIn && (
+                    <Button variant="outline" asChild>
+                      <a href={faculty.linkedIn} target="_blank" rel="noopener noreferrer">
+                        <Linkedin className="h-4 w-4" />
+                      </a>
+                    </Button>
+                  )}
+                </div>
+              </div>
+
+              {/* About Section */}
+              <div className="lg:col-span-2">
+                <h2 className="text-2xl font-bold mb-4">About</h2>
+                {faculty.bio ? (
+                  <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                    {faculty.bio}
+                  </p>
+                ) : (
+                  <p className="text-muted-foreground italic">
+                    Biography coming soon...
+                  </p>
+                )}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                  {faculty.specialization && (
+                    <Card>
+                      <CardContent className="pt-6">
+                        <div className="flex items-start gap-3">
+                          <Award className="h-5 w-5 text-primary mt-1 shrink-0" />
+                          <div>
+                            <h3 className="font-semibold mb-1">Specialization</h3>
+                            <p className="text-sm text-muted-foreground">{faculty.specialization}</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+                  
+                  {faculty.experience && (
+                    <Card>
+                      <CardContent className="pt-6">
+                        <div className="flex items-start gap-3">
+                          <Briefcase className="h-5 w-5 text-primary mt-1 shrink-0" />
+                          <div>
+                            <h3 className="font-semibold mb-1">Experience</h3>
+                            <p className="text-sm text-muted-foreground">{faculty.experience}</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+                </div>
+
+                {faculty.phone && (
+                  <div className="flex items-center gap-2 mt-4 text-sm text-muted-foreground">
                     <Phone className="h-4 w-4" />
                     <span>{faculty.phone}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="h-4 w-4" />
-                    <span>{faculty.office}</span>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col gap-2">
-                <Button>
-                  <Mail className="h-4 w-4 mr-2" />
-                  Contact Faculty
-                </Button>
-                <Button variant="outline">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  Schedule Meeting
-                </Button>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Detailed Information Tabs */}
-          <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="education">Education</TabsTrigger>
-              <TabsTrigger value="experience">Experience</TabsTrigger>
-              <TabsTrigger value="courses">Courses</TabsTrigger>
-              <TabsTrigger value="research">Research</TabsTrigger>
+          {/* Tabs for Additional Information */}
+          <Tabs defaultValue="qualifications" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-3">
+              <TabsTrigger value="qualifications">Qualifications</TabsTrigger>
+              <TabsTrigger value="programs">Teaching Programs</TabsTrigger>
+              <TabsTrigger value="expertise">Areas of Expertise</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="overview" className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <BookOpen className="h-5 w-5" />
-                      Specializations
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-2">
-                      {faculty.specialization.split(', ').map((spec: string, index: number) => (
-                        <Badge key={index} variant="secondary">{spec}</Badge>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Award className="h-5 w-5" />
-                      Key Achievements
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2">
-                      {faculty.achievements.map((achievement: string, index: number) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="w-2 h-2 bg-primary rounded-full mt-2 shrink-0"></span>
-                          <span>{achievement}</span>
+            <TabsContent value="qualifications" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <GraduationCap className="h-5 w-5" />
+                    Educational Qualifications
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {faculty.qualifications && faculty.qualifications.length > 0 ? (
+                    <ul className="space-y-3">
+                      {faculty.qualifications.map((qual, index) => (
+                        <li key={index} className="flex items-start gap-3">
+                          <CheckCircle className="h-5 w-5 text-primary mt-0.5 shrink-0" />
+                          <span>{qual}</span>
                         </li>
                       ))}
                     </ul>
-                  </CardContent>
-                </Card>
-              </div>
+                  ) : (
+                    <p className="text-muted-foreground italic">
+                      Qualification details coming soon...
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
             </TabsContent>
 
-            <TabsContent value="education" className="space-y-6">
+            <TabsContent value="programs" className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Educational Background</CardTitle>
+                  <CardTitle>Teaching Programs</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {faculty.education.map((edu: Education, index: number) => (
-                      <div key={index} className="border-l-2 border-primary pl-4">
-                        <h3 className="font-semibold">{edu.degree}</h3>
-                        <p className="text-muted-foreground">{edu.institution}</p>
-                        <p className="text-sm text-muted-foreground">{edu.year}</p>
+                    {faculty.teachesDiploma && (
+                      <div>
+                        <h3 className="font-semibold mb-2 flex items-center gap-2">
+                          <GraduationCap className="h-4 w-4 text-primary" />
+                          Diploma Programs
+                        </h3>
+                        <p className="text-sm text-muted-foreground mb-3">
+                          Teaches comprehensive year-long diploma courses in {faculty.department}.
+                        </p>
+                        <Button variant="outline" size="sm" asChild>
+                          <Link href="/diplomas">View All Diplomas</Link>
+                        </Button>
                       </div>
-                    ))}
+                    )}
+
+                    {faculty.teachesTraining && (
+                      <div>
+                        <h3 className="font-semibold mb-2 flex items-center gap-2">
+                          <Briefcase className="h-4 w-4 text-primary" />
+                          Industrial Training Programs
+                        </h3>
+                        <p className="text-sm text-muted-foreground mb-3">
+                          Conducts intensive 6-week and 6-month industrial training programs.
+                        </p>
+                        <Button variant="outline" size="sm" asChild>
+                          <Link href="/industrial-trainings">View All Trainings</Link>
+                        </Button>
+                      </div>
+                    )}
+
+                    {!faculty.teachesDiploma && !faculty.teachesTraining && (
+                      <p className="text-muted-foreground italic">
+                        Teaching program details coming soon...
+                      </p>
+                    )}
                   </div>
                 </CardContent>
               </Card>
             </TabsContent>
 
-            <TabsContent value="experience" className="space-y-6">
+            <TabsContent value="expertise" className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Professional Experience</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    <Award className="h-5 w-5" />
+                    Areas of Expertise
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
-                    {faculty.experience.map((exp: Experience, index: number) => (
-                      <div key={index} className="border-l-2 border-primary pl-4">
-                        <h3 className="font-semibold">{exp.role}</h3>
-                        <p className="text-muted-foreground">{exp.org}</p>
-                        <p className="text-sm text-muted-foreground">{exp.period}</p>
+                  {faculty.specialization ? (
+                    <div className="prose dark:prose-invert max-w-none">
+                      <p className="text-muted-foreground leading-relaxed">
+                        {faculty.specialization}
+                      </p>
+                      
+                      <div className="mt-6 p-4 bg-brand-50 dark:bg-brand-950 rounded-lg">
+                        <h4 className="text-sm font-semibold mb-2">Department</h4>
+                        <p className="text-sm text-muted-foreground">{faculty.department}</p>
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="courses" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Courses Taught</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {faculty.courses.map((course: string, index: number) => (
-                      <div key={index} className="p-4 border rounded-lg hover:bg-muted/50 transition-colors">
-                        <div className="flex items-center justify-between">
-                          <span className="font-medium">{course}</span>
-                          <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="research" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Publications & Research</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {faculty.publications.map((pub: string, index: number) => (
-                      <div key={index} className="p-4 border rounded-lg">
-                        <div className="flex items-start justify-between">
-                          <span className="font-medium">{pub}</span>
-                          <Button variant="ghost" size="sm">
-                            <ExternalLink className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                    </div>
+                  ) : (
+                    <p className="text-muted-foreground italic">
+                      Expertise details coming soon...
+                    </p>
+                  )}
                 </CardContent>
               </Card>
             </TabsContent>
           </Tabs>
-
-          {/* Contact Card */}
-          <Card className="mt-8">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5" />
-                Get in Touch
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="font-semibold mb-2">Office Hours</h3>
-                  <p className="text-muted-foreground mb-4">
-                    Monday - Friday: 10:00 AM - 4:00 PM<br />
-                    Saturday: 10:00 AM - 2:00 PM
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Schedule appointments in advance for personalized guidance and academic support.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <Button className="w-full">
-                    <Mail className="h-4 w-4 mr-2" />
-                    Send Email
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    Book Consultation
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </Container>
     </div>

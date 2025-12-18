@@ -29,6 +29,11 @@ enum NoticeCategory {
   EVENT
 }
 
+enum CourseType {
+  DIPLOMA           // 1-year diploma
+  INDUSTRIAL_TRAINING // 6 weeks or 6 months training
+}
+
 // ============================================
 // MODELS
 // ============================================
@@ -49,11 +54,17 @@ model User {
 }
 
 model Course {
-  id          String   @id @default(cuid())
+  id          String     @id @default(cuid())
+  slug        String     @unique
   title       String
-  code        String   @unique
-  duration    String // e.g., "1 Year", "6 Months"
-  syllabusUrl String?
+  code        String     @unique
+  description String?    @db.Text
+  type        CourseType @default(DIPLOMA)
+  duration    String // e.g., "1 Year", "6 Weeks", "6 Months"
+  eligibility String? // e.g., "+2", "Graduate"
+  syllabusUrl String? // Google Drive link
+  syllabus    Json? // Optional structured syllabus data
+  highlights  String[] // Array of key features
   isActive    Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -65,15 +76,24 @@ model Course {
 }
 
 model Faculty {
-  id          String   @id @default(cuid())
-  name        String
-  designation String
-  department  String
-  email       String   @unique
-  photoUrl    String?
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  name             String
+  designation      String
+  department       String
+  email            String   @unique
+  phone            String?
+  photoUrl         String?
+  specialization   String? // Area of expertise
+  qualifications   String[] // Array of degrees/certifications
+  experience       String? // e.g., "10 years"
+  bio              String?  @db.Text // Brief biography
+  teachesDiploma   Boolean  @default(false) // Teaches diploma courses
+  teachesTraining  Boolean  @default(false) // Teaches industrial training
+  linkedIn         String?
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@map("faculty")
 }
@@ -81,14 +101,17 @@ model Faculty {
 model Notice {
   id            String         @id @default(cuid())
   title         String
+  slug          String         @unique
   content       String         @db.Text
+  excerpt       String? // Short summary
   category      NoticeCategory @default(GENERAL)
   attachmentUrl String?
   isPinned      Boolean        @default(false)
+  publishedAt   DateTime       @default(now())
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 
-  @@index([isPinned, createdAt])
+  @@index([isPinned, publishedAt])
   @@map("notices")
 }
 
@@ -115,20 +138,23 @@ model Result {
 
 model Blog {
   id          String    @id @default(cuid())
-  title       String
   slug        String    @unique
+  title       String
+  excerpt     String?   @db.Text // Short summary for listing
   content     String    @db.Text // Rich text content
-  coverImage  String?
+  coverImage  String? // Cover image URL
+  authorId    String?
+  isPublished Boolean   @default(false)
   publishedAt DateTime?
-  authorId    String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
   // Relations
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author User? @relation(fields: [authorId], references: [id], onDelete: SetNull)
 
   @@index([slug])
   @@index([publishedAt])
+  @@index([isPublished])
   @@map("blogs")
 }
 
@@ -144,4 +170,40 @@ model Event {
 
   @@index([date])
   @@map("events")
+}
+
+enum StartupType {
+  STARTUP   // Early stage startup
+  COMPANY   // Established company
+}
+
+enum StartupStatus {
+  INCUBATING // Currently in incubation
+  ACTIVE     // Graduated and operating
+  GRADUATED  // Successfully completed incubation
+}
+
+model Startup {
+  id              String        @id @default(cuid())
+  slug            String        @unique
+  name            String
+  type            StartupType   @default(STARTUP)
+  sector          String // Industry/sector (e.g., "EdTech", "AgriTech")
+  description     String        @db.Text
+  logoUrl         String? // Company/startup logo
+  websiteUrl      String?
+  foundedYear     Int? // Year of establishment
+  founderNames    String[] // Array of founder names
+  status          StartupStatus @default(INCUBATING)
+  highlights      String[] // Key achievements/metrics
+  fundingReceived String? // e.g., "₹50 Lakhs seed funding"
+  teamSize        Int? // Number of employees
+  isActive        Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([type])
+  @@index([status])
+  @@index([isActive])
+  @@map("startups")
 }

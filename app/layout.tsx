@@ -6,6 +6,7 @@ import { SiteNavbar } from "@/components/site-navbar";
 import { SiteFooter } from "@/components/site-footer";
 import { siteConfig } from "@/components/site-config";
 import { AuthProvider } from "@/components/auth-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -72,6 +73,7 @@ export default function RootLayout({
             <main className="flex-1">{children}</main>
             <SiteFooter />
           </div>
+          <Toaster />
         </AuthProvider>
       </body>
     </html>

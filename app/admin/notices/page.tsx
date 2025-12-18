@@ -1,45 +1,29 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { auth } from "@/lib/auth"
+import { redirect } from "next/navigation"
+import { prisma } from "@/lib/prisma"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Plus, Pin, Eye, Edit } from "lucide-react"
+import { Plus, Pin, Edit, Trash2, PinOff } from "lucide-react"
+import Link from "next/link"
+import { DeleteNoticeButton, TogglePinButton } from "./actions-client"
 
 export const metadata = {
   title: "Manage Notices",
   description: "Create and manage notices and announcements"
 }
 
-// Mock notices data
-const mockNotices = [
-  {
-    id: "1",
-    title: "New Batch for Full Stack Development Course Starting Soon",
-    excerpt: "We are excited to announce the launch of our new Full Stack Development batch...",
-    status: "published",
-    pinned: true,
-    publishedAt: "2024-10-25",
-    views: 1250
-  },
-  {
-    id: "2",
-    title: "Startup Pitch Competition - Register Now", 
-    excerpt: "Join our annual startup pitch competition with a prize pool of ₹5 lakhs...",
-    status: "published",
-    pinned: true,
-    publishedAt: "2024-10-20",
-    views: 890
-  },
-  {
-    id: "3",
-    title: "Guest Lecture on AI/ML Trends",
-    excerpt: "Don't miss our upcoming guest lecture by Dr. Sarah Johnson...",
-    status: "draft",
-    pinned: false,
-    publishedAt: null,
-    views: 0
-  }
-]
+export default async function ManageNoticesPage() {
+  const session = await auth()
+  if (!session) redirect("/login")
 
-export default function ManageNoticesPage() {
+  const notices = await prisma.notice.findMany({
+    orderBy: [
+      { isPinned: "desc" },
+      { publishedAt: "desc" }
+    ],
+  })
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -49,86 +33,109 @@ export default function ManageNoticesPage() {
             Create and manage notices and announcements
           </p>
         </div>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          New Notice
+        <Button asChild>
+          <Link href="/admin/notices/new">
+            <Plus className="mr-2 h-4 w-4" />
+            New Notice
+          </Link>
         </Button>
+      </div>
+
+      {/* Stats */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card>
+          <CardContent className="pt-6">
+            <div className="text-2xl font-bold">{notices.length}</div>
+            <p className="text-xs text-muted-foreground">Total Notices</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-6">
+            <div className="text-2xl font-bold">
+              {notices.filter((n) => n.isPinned).length}
+            </div>
+            <p className="text-xs text-muted-foreground">Pinned</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-6">
+            <div className="text-2xl font-bold">
+              {notices.filter((n) => n.category === "URGENT").length}
+            </div>
+            <p className="text-xs text-muted-foreground">Urgent</p>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Notices List */}
       <div className="space-y-4">
-        {mockNotices.map((notice) => (
-          <Card key={notice.id}>
-            <CardHeader>
-              <div className="flex items-start justify-between">
-                <div>
-                  <CardTitle className="text-lg">{notice.title}</CardTitle>
-                  <CardDescription className="mt-1">
-                    {notice.excerpt}
-                  </CardDescription>
-                </div>
-                <div className="flex gap-2">
-                  {notice.pinned && (
-                    <Badge variant="secondary">
-                      <Pin className="h-3 w-3 mr-1" />
-                      Pinned
-                    </Badge>
-                  )}
-                  <Badge variant={notice.status === 'published' ? 'default' : 'outline'}>
-                    {notice.status === 'published' ? 'Published' : 'Draft'}
-                  </Badge>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-muted-foreground">
-                  {notice.status === 'published' ? (
-                    <span>
-                      Published {new Date(notice.publishedAt!).toLocaleDateString()} • {notice.views} views
-                    </span>
-                  ) : (
-                    <span>Draft - Not published</span>
-                  )}
-                </div>
-                <div className="flex gap-2">
-                  <Button variant="ghost" size="sm">
-                    <Eye className="h-4 w-4 mr-1" />
-                    View
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    <Edit className="h-4 w-4 mr-1" />
-                    Edit
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    {notice.pinned ? 'Unpin' : 'Pin'}
-                  </Button>
-                  <Button variant="ghost" size="sm">
-                    {notice.status === 'published' ? 'Unpublish' : 'Publish'}
-                  </Button>
-                </div>
-              </div>
+        {notices.length === 0 ? (
+          <Card>
+            <CardContent className="flex flex-col items-center justify-center py-12">
+              <p className="text-muted-foreground">No notices yet</p>
+              <Button asChild className="mt-4">
+                <Link href="/admin/notices/new">Create your first notice</Link>
+              </Button>
             </CardContent>
           </Card>
-        ))}
-      </div>
+        ) : (
+          notices.map((notice) => (
+            <Card key={notice.id}>
+              <CardContent className="pt-6">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center gap-2">
+                      {notice.isPinned && (
+                        <Pin className="h-4 w-4 text-primary" />
+                      )}
+                      <h3 className="text-lg font-semibold">
+                        {notice.title}
+                      </h3>
+                    </div>
+                    
+                    {notice.excerpt && (
+                      <p className="text-sm text-muted-foreground line-clamp-2">
+                        {notice.excerpt}
+                      </p>
+                    )}
 
-      {/* TODO Notice */}
-      <Card className="border-brand-200 bg-brand-50">
-        <CardHeader>
-          <CardTitle>Coming Soon</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>• Rich text editor for notice content</li>
-            <li>• Image upload and media management</li>
-            <li>• Scheduling and auto-publish features</li>
-            <li>• Categories and tagging system</li>
-            <li>• Email notifications to subscribers</li>
-            <li>• Analytics and engagement metrics</li>
-          </ul>
-        </CardContent>
-      </Card>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Badge variant={
+                        notice.category === "URGENT" ? "destructive" :
+                        notice.category === "ADMISSION" ? "default" :
+                        "secondary"
+                      }>
+                        {notice.category}
+                      </Badge>
+                      <span className="text-xs text-muted-foreground">
+                        {new Date(notice.publishedAt).toLocaleDateString()}
+                      </span>
+                      {notice.attachmentUrl && (
+                        <Badge variant="outline">Has Attachment</Badge>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <TogglePinButton 
+                      noticeId={notice.id} 
+                      isPinned={notice.isPinned}
+                    />
+                    
+                    <Button variant="outline" size="sm" asChild>
+                      <Link href={`/admin/notices/${notice.id}/edit`}>
+                        <Edit className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                    
+                    <DeleteNoticeButton noticeId={notice.id} />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))
+        )}
+      </div>
     </div>
   )
 }
