@@ -6,6 +6,8 @@ import { Bell, Pin, Calendar, FileText } from "lucide-react"
 import Link from "next/link"
 import { format } from "date-fns"
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: "Notices & Announcements | STEP-GNDEC",
   description: "Stay updated with latest notices and announcements"

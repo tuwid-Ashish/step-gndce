@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge"
 import { Briefcase, Clock, FileCheck } from "lucide-react"
 import Link from "next/link"
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: "Industrial Trainings | STEP-GNDEC",
   description: "Short-term industrial training programs for skill development"

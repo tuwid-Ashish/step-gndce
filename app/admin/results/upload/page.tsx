@@ -1,3 +1,5 @@
+import { auth } from "@/lib/auth"
+import { redirect } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -10,7 +12,18 @@ export const metadata = {
   description: "Upload examination results via CSV file"
 }
 
-export default function UploadResultsPage() {
+export default async function UploadResultsPage() {
+  const session = await auth()
+  
+  if (!session) {
+    redirect("/login")
+  }
+
+  // CONTENT_EDITOR cannot access results
+  if (session.user.role === "CONTENT_EDITOR") {
+    redirect("/admin")
+  }
+
   return (
     <div className="space-y-6">
       <div>

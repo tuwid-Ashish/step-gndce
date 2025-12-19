@@ -5,6 +5,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { prisma } from "@/lib/prisma"
 import { Users, GraduationCap, Briefcase } from "lucide-react"
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: "Faculty & Staff - STEP Institute",
   description: "Meet our experienced faculty members - diploma educators and industrial training instructors at STEP Institute.",

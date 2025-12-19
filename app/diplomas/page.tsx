@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge"
 import { GraduationCap, Clock, FileCheck } from "lucide-react"
 import Link from "next/link"
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: "Diploma Courses | STEP-GNDEC",
   description: "Explore our 1-year diploma programs in various fields"

@@ -1,3 +1,5 @@
+import { auth } from "@/lib/auth"
+import { redirect } from "next/navigation"
 import { Card, CardContent,  CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -40,7 +42,18 @@ const mockUsers = [
   }
 ]
 
-export default function ManageUsersPage() {
+export default async function ManageUsersPage() {
+  const session = await auth()
+  
+  if (!session) {
+    redirect("/login")
+  }
+
+  // Only SUPER_ADMIN can access user management
+  if (session.user.role !== "SUPER_ADMIN") {
+    redirect("/admin")
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">

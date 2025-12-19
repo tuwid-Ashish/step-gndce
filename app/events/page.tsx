@@ -7,6 +7,8 @@ import Link from "next/link"
 import { prisma } from "@/lib/prisma"
 import { format, isFuture, isPast } from "date-fns"
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: "Events",
   description: "Upcoming workshops, seminars, and events at STEP Institute"

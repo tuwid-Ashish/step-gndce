@@ -1,34 +1,25 @@
-import { auth } from "@/lib/auth"
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 
 export async function middleware(request: NextRequest) {
-  const session = await auth()
   const { pathname } = request.nextUrl
+  
+  // Check for session token (NextAuth uses either __Secure-authjs.session-token or authjs.session-token)
+  const token = request.cookies.get("authjs.session-token") || 
+                request.cookies.get("__Secure-authjs.session-token")
 
-  // Protect admin routes
+  // Protect admin routes - redirect to login if no token
   if (pathname.startsWith("/admin")) {
-    if (!session) {
+    if (!token) {
       const url = new URL("/login", request.url)
       url.searchParams.set("callbackUrl", pathname)
       return NextResponse.redirect(url)
     }
-
-    // Role-based access control
-    if (pathname.startsWith("/admin/users") && session.user.role !== "SUPER_ADMIN") {
-      return NextResponse.redirect(new URL("/admin", request.url))
-    }
-
-    if (
-      pathname.startsWith("/admin/results") &&
-      session.user.role === "CONTENT_EDITOR"
-    ) {
-      return NextResponse.redirect(new URL("/admin", request.url))
-    }
+    // Note: Role-based access control is now handled in individual admin pages via auth()
   }
 
-  // Redirect to admin if already logged in and trying to access login
-  if (pathname === "/login" && session) {
+  // Redirect to admin if already has token and trying to access login
+  if (pathname === "/login" && token) {
     return NextResponse.redirect(new URL("/admin", request.url))
   }
 
