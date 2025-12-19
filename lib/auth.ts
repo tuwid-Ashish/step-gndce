@@ -19,15 +19,17 @@ declare module "next-auth" {
   }
 }
 
-declare module "next-auth/jwt" {
-  interface JWT {
-    id: string
-    role: UserRole
-  }
-}
+// Commenting out JWT module augmentation - not needed with current setup
+// declare module "next-auth/jwt" {
+//   interface JWT {
+//     id: string
+//     role: UserRole
+//   }
+// }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PrismaAdapter(prisma),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  adapter: PrismaAdapter(prisma) as any,
   session: {
     strategy: "jwt",
   },
@@ -84,8 +86,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async session({ session, token }) {
       if (token && session.user) {
-        session.user.id = token.id
-        session.user.role = token.role
+        session.user.id = token.id as string
+        session.user.role = token.role as UserRole
       }
       return session
     },

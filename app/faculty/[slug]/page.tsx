@@ -16,16 +16,18 @@ import {
 } from "lucide-react"
 import { notFound } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 
 interface FacultyDetailPageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: FacultyDetailPageProps) {
+  const { slug } = await params
   const faculty = await prisma.faculty.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
   })
   
   if (!faculty) {
@@ -41,8 +43,9 @@ export async function generateMetadata({ params }: FacultyDetailPageProps) {
 }
 
 export default async function FacultyDetailPage({ params }: FacultyDetailPageProps) {
+  const { slug } = await params
   const faculty = await prisma.faculty.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
   })
   
   if (!faculty || !faculty.isActive) {
@@ -52,7 +55,7 @@ export default async function FacultyDetailPage({ params }: FacultyDetailPagePro
   const breadcrumbItems = [
     { label: "Home", href: "/" },
     { label: "Faculty", href: "/faculty" },
-    { label: faculty.name, href: `/faculty/${params.slug}` }
+    { label: faculty.name, href: `/faculty/${slug}` }
   ]
 
   return (
@@ -67,10 +70,12 @@ export default async function FacultyDetailPage({ params }: FacultyDetailPagePro
               {/* Photo and Basic Info */}
               <div className="flex flex-col items-center text-center">
                 {faculty.photoUrl ? (
-                  <img
-                    src={faculty.photoUrl}
-                    alt={faculty.name}
-                    className="w-48 h-48 rounded-full object-cover mb-4 border-4 border-white shadow-lg"
+                  <Image
+                  src={faculty.photoUrl}
+                  alt={faculty.name}
+                  width={192}
+                  height={192}
+                  className="rounded-full object-cover mb-4 border-4 border-white shadow-lg"
                   />
                 ) : (
                   <div className="w-48 h-48 rounded-full bg-linear-to-br from-primary to-brand-600 flex items-center justify-center text-white text-4xl font-bold mb-4 border-4 border-white shadow-lg">

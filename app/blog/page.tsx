@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma"
 import { format } from "date-fns"
 import Link from "next/link"
 import { Calendar, ArrowRight } from "lucide-react"
+import Image from "next/image"
 
 export const metadata = {
   title: "Blog",
@@ -49,11 +50,12 @@ export default async function BlogPage() {
                   <Card className="h-full hover:shadow-lg transition-shadow">
                     {blog.coverImage && (
                       <div className="aspect-video w-full overflow-hidden rounded-t-lg">
-                        <img
+                        <Image
                           src={blog.coverImage}
                           alt={blog.title}
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                         />
+                        
                       </div>
                     )}
                     <CardHeader>

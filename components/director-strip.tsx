@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 interface DirectorStripProps {
@@ -50,7 +51,9 @@ export function DirectorStrip({ director }: DirectorStripProps) {
         <div className="flex flex-col md:flex-row items-start gap-8">
           {/* Left photo column */}
           <div className="w-full md:w-1/3 shrink-0">
-            <img
+            <Image
+              width={100}
+              height={100}
               src={director.photoUrl}
               alt={`${director.name}, ${director.title}`}
               className="w-full h-96 md:h-[540px] rounded-lg object-cover shadow-lg"

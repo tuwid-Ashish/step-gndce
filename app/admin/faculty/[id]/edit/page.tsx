@@ -8,14 +8,15 @@ export const metadata = {
 }
 
 interface EditFacultyPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export default async function EditFacultyPage({ params }: EditFacultyPageProps) {
+  const { id } = await params
   const faculty = await prisma.faculty.findUnique({
-    where: { id: params.id },
+    where: { id },
   })
 
   if (!faculty) {

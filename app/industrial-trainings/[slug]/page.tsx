@@ -9,8 +9,6 @@ import {
   Briefcase, 
   Clock, 
   FileCheck, 
-  BookOpen, 
-  ExternalLink,
   ArrowLeft,
   Download,
   FileText,

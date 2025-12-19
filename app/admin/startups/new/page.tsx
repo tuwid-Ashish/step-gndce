@@ -8,12 +8,29 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
+import { StartupType, StartupStatus } from "@prisma/client"
+
+type StartupFormData = {
+  name: string
+  type: StartupType
+  sector: string
+  description: string
+  logoUrl?: string
+  websiteUrl?: string
+  foundedYear?: number
+  founderNames: string[]
+  status: StartupStatus
+  highlights: string[]
+  fundingReceived?: string
+  teamSize?: number
+  isActive: boolean
+}
 
 export default function NewStartupPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: StartupFormData) => {
     setIsLoading(true)
     const result = await createStartup(data)
 

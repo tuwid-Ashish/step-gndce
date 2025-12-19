@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 interface MainLogoProps {
   className?: string
@@ -16,8 +17,10 @@ export function MainLogo({ className }: MainLogoProps) {
     >
       {/* logo */}
       <div className="h-12 w-12 rounded-f overflow-hidden shrink-0">
-        <img
+        <Image
           src="https://stepgndec.com/wp-content/themes/STEPv8/img/stepback.png"
+          width={48}
+          height={48}
           alt="STEP logo"
           className="block w-full h-full object-cover"
         />

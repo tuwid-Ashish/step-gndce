@@ -25,7 +25,7 @@ export interface FacultyFormData {
   phone?: string
   photoUrl?: string
   specialization?: string
-  qualifications?: string[]
+  qualifications: string[]
   experience?: string
   bio?: string
   teachesDiploma: boolean
@@ -60,10 +60,12 @@ const defaultValues: FacultyFormData = {
 export function FacultyForm({ initialData, onSubmit, isSubmitting }: FacultyFormProps) {
   const form = useForm<FacultyFormData>({
     defaultValues: initialData || defaultValues,
+    mode: "onChange",
   })
 
   const { fields: qualificationFields, append: appendQualification, remove: removeQualification } = useFieldArray({
-    control: form.control,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    control: form.control as any,
     name: "qualifications",
   })
 

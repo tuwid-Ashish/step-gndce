@@ -13,7 +13,7 @@ export default function NewEventPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: { title: string; description: string; date: Date; venue: string; registrationLink?: string }) => {
     setIsLoading(true)
     const result = await createEvent(data)
 

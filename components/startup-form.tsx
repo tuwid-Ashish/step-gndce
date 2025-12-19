@@ -41,7 +41,7 @@ const startupFormSchema = z.object({
   highlights: z.array(z.string()).min(1, "At least one highlight is required"),
   fundingReceived: z.string().optional().or(z.literal("")),
   teamSize: z.number().positive().optional().or(z.literal(undefined)),
-  isActive: z.boolean().default(true),
+  isActive: z.boolean(),
 })
 
 type StartupFormValues = z.infer<typeof startupFormSchema>

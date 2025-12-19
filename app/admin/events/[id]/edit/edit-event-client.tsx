@@ -27,7 +27,7 @@ export function EditEventClient({ event }: EditEventClientProps) {
     registrationLink: event.registrationLink || "",
   }
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: { title: string; description: string; date: Date; venue: string; registrationLink?: string }) => {
     setIsLoading(true)
     const result = await updateEvent(event.id, data)
 

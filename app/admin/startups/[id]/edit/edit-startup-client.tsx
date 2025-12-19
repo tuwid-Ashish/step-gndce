@@ -1,6 +1,6 @@
 "use client"
 
-import { Startup } from "@prisma/client"
+import { Startup, StartupType, StartupStatus } from "@prisma/client"
 import { StartupForm } from "@/components/startup-form"
 import { updateStartup } from "@/app/actions/startup"
 import { toast } from "sonner"
@@ -9,6 +9,22 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
+
+type StartupFormData = {
+  name: string
+  type: StartupType
+  sector: string
+  description: string
+  logoUrl?: string
+  websiteUrl?: string
+  foundedYear?: number
+  founderNames: string[]
+  status: StartupStatus
+  highlights: string[]
+  fundingReceived?: string
+  teamSize?: number
+  isActive: boolean
+}
 
 interface EditStartupClientProps {
   startup: Startup
@@ -35,7 +51,7 @@ export function EditStartupClient({ startup }: EditStartupClientProps) {
     isActive: startup.isActive,
   }
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: StartupFormData) => {
     setIsLoading(true)
     const result = await updateStartup(startup.id, data)
 

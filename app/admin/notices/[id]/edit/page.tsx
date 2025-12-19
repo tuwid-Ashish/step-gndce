@@ -8,12 +8,13 @@ import Link from "next/link"
 import { updateNotice } from "@/app/actions/notices"
 import { notFound } from "next/navigation"
 
-export default async function EditNoticePage({ params }: { params: { id: string } }) {
+export default async function EditNoticePage({ params }: { params: Promise<{ id: string }> }) {
   const session = await auth()
   if (!session) redirect("/login")
 
+  const { id } = await params
   const notice = await prisma.notice.findUnique({
-    where: { id: params.id },
+    where: { id },
   })
 
   if (!notice) notFound()

@@ -111,7 +111,7 @@ export default async function ManageCoursesPage() {
   )
 }
 
-function CourseCard({ course }: { course: any }) {
+function CourseCard({ course }: { course: { id: string; title: string; code: string; type: string; duration: string; isActive: boolean; description?: string | null; eligibility?: string | null; syllabusUrl?: string | null; highlights: string[] } }) {
   return (
     <Card>
       <CardContent className="pt-6">

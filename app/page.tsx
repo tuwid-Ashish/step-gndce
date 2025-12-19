@@ -1,12 +1,9 @@
 import Link from "next/link"
 import { Container } from "@/components/container"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
 import { DiplomaCard } from "@/components/diploma-card"
-import { NoticeCard } from "@/components/notice-card"
 import { ProgramCard } from "@/components/program-card"
-import { UpdateTag } from "@/components/update-tag"
 import { DirectorStrip } from "@/components/director-strip"
 import { ObjectivesBlock } from "@/components/objectives-block"
 import { Testimonials } from "@/components/testimonials"
@@ -15,10 +12,7 @@ import { director, objectives, testimonials, incubator } from "@/app/_data/legac
 import { Trophy, GraduationCap, ArrowRight, Rocket, TrendingUp, Clock, Phone, Mail, MessageCircle, MapPin } from "lucide-react"
 
 // TODO: replace with the actual STEP asset URLs or move files into /public and point there.
-const HERO_VIDEO =
-  "/drone-footage.mp4" // <- update path
-const HERO_POSTER =
-  "https://stepgndec.com/wp-content/uploads/hero-poster.jpg" // <- update path
+const HERO_POSTER ="/image.png" // <- update path
 
 export const metadata = {
   title: "STEP – Train. Incubate. Launch.",
@@ -54,6 +48,8 @@ export default function HomePage() {
       <section className="relative isolate">
         {/* Video bg */}
         <div className="absolute inset-0 -z-10 overflow-hidden rounded-none">
+          {/* Poster image for loading state */}
+          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${HERO_POSTER})` }} />
           <iframe 
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-[56.25vw] min-h-screen min-w-[177.77vh]"
             src="https://www.youtube.com/embed/ybtlmX3yPEk?autoplay=1&mute=1&loop=1&playlist=ybtlmX3yPEk&controls=0&showinfo=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1" 

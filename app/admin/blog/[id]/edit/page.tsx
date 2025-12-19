@@ -8,14 +8,15 @@ export const metadata = {
 }
 
 interface EditBlogPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export default async function EditBlogPage({ params }: EditBlogPageProps) {
+  const { id } = await params
   const blog = await prisma.blog.findUnique({
-    where: { id: params.id },
+    where: { id },
   })
 
   if (!blog) {

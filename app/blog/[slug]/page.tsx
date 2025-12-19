@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma"
 import { format } from "date-fns"
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
+import Image from "next/image"
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -19,13 +20,13 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
   const blog = await prisma.blog.findUnique({
     where: { slug, isPublished: true },
   })
-  
+
   if (!blog) {
     return {
       title: "Blog Post Not Found",
     }
   }
-  
+
   return {
     title: blog.title,
     description: blog.excerpt || blog.title
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params
-  
+
   const blog = await prisma.blog.findUnique({
     where: { slug, isPublished: true },
     include: {
@@ -49,7 +50,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   if (!blog) {
     notFound()
   }
-  
+
   return (
     <div className="py-16">
       <Container>
@@ -64,7 +65,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {/* Cover Image */}
           {blog.coverImage && (
             <div className="aspect-video w-full overflow-hidden rounded-lg mb-8">
-              <img
+              <Image
                 src={blog.coverImage}
                 alt={blog.title}
                 className="w-full h-full object-cover"
@@ -75,7 +76,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-4xl font-bold mb-4">{blog.title}</h1>
-            
+
             {/* Meta Info */}
             <div className="flex items-center gap-6 text-muted-foreground">
               {blog.author && (
@@ -91,7 +92,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </div>
               )}
             </div>
-            
+
             {/* Excerpt */}
             {blog.excerpt && (
               <p className="mt-4 text-lg text-muted-foreground">{blog.excerpt}</p>

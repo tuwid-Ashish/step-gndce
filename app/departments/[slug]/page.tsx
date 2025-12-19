@@ -193,13 +193,14 @@ const mockDepartmentsData: Record<string, DepartmentData> = {
 }
 
 interface DepartmentPageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: DepartmentPageProps) {
-  const department = mockDepartmentsData[params.slug]
+  const { slug } = await params
+  const department = mockDepartmentsData[slug]
   
   if (!department) {
     return {
@@ -213,8 +214,9 @@ export async function generateMetadata({ params }: DepartmentPageProps) {
   }
 }
 
-export default function DepartmentPage({ params }: DepartmentPageProps) {
-  const department = mockDepartmentsData[params.slug]
+export default async function DepartmentPage({ params }: DepartmentPageProps) {
+  const { slug } = await params
+  const department = mockDepartmentsData[slug]
   
   if (!department) {
     notFound()
@@ -223,7 +225,7 @@ export default function DepartmentPage({ params }: DepartmentPageProps) {
   const breadcrumbItems = [
     { label: "Home", href: "/" },
     { label: "Departments", href: "/departments" },
-    { label: department.shortName, href: `/departments/${params.slug}` }
+    { label: department.shortName, href: `/departments/${slug}` }
   ]
 
   return (
