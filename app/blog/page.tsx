@@ -52,7 +52,7 @@ export default async function BlogPage() {
                   <Card className="h-full hover:shadow-lg transition-shadow">
                     {blog.coverImage && (
                       <div className="aspect-video w-full overflow-hidden rounded-t-lg">
-                        <Image
+                        <img
                           src={blog.coverImage}
                           alt={blog.title}
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"

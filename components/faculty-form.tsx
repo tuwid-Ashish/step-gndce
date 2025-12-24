@@ -40,6 +40,41 @@ interface FacultyFormProps {
   isSubmitting: boolean
 }
 
+// Add this utility function at the top of your faculty-form.tsx file, after imports
+
+/**
+ * Converts a Google Drive link to thumbnail format for image display
+ * @param url - Google Drive link (view or open format)
+ * @param size - Image size (default: w160 for faculty card)
+ * @returns Thumbnail URL or original URL if not a Google Drive link
+ */
+function convertDriveUrlToThumbnail(url: string, size: string = 'w160'): string {
+  if (!url || typeof url !== 'string') return url;
+
+  // Match Google Drive URLs and extract file ID
+  const patterns = [
+    /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/,
+    /drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/,
+    /drive\.google\.com\/uc\?id=([a-zA-Z0-9_-]+)/,
+  ];
+
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match && match[1]) {
+      return `https://drive.google.com/thumbnail?id=${match[1]}&sz=${size}`;
+    }
+  }
+
+  // If already in thumbnail format, update size if needed
+  const thumbnailMatch = url.match(/drive\.google\.com\/thumbnail\?id=([a-zA-Z0-9_-]+)/);
+  if (thumbnailMatch && thumbnailMatch[1]) {
+    return `https://drive.google.com/thumbnail?id=${thumbnailMatch[1]}&sz=${size}`;
+  }
+
+  // Return original URL if not a Google Drive link
+  return url;
+}
+
 const defaultValues: FacultyFormData = {
   name: "",
   designation: "",
@@ -182,7 +217,14 @@ export function FacultyForm({ initialData, onSubmit, isSubmitting }: FacultyForm
                   <FormItem>
                     <FormLabel>Photo URL</FormLabel>
                     <FormControl>
-                      <Input placeholder="https://example.com/photo.jpg" {...field} />
+                      <Input 
+                        placeholder="https://example.com/photo.jpg" 
+                        {...field}
+                        onChange={(e) => {
+                          const convertedUrl = convertDriveUrlToThumbnail(e.target.value);
+                          field.onChange(convertedUrl);
+                        }}
+                      />
                     </FormControl>
                     <FormDescription>
                       Link to faculty member's photo

@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: 'stepgndec.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'drive.google.com',
+        pathname: '/**',
+      },
     ],
   },
 };

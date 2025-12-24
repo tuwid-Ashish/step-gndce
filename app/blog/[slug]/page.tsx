@@ -65,7 +65,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {/* Cover Image */}
           {blog.coverImage && (
             <div className="aspect-video w-full overflow-hidden rounded-lg mb-8">
-              <Image
+              <img
                 src={blog.coverImage}
                 alt={blog.title}
                 className="w-full h-full object-cover"
