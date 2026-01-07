@@ -9,13 +9,9 @@ import {
   GraduationCap, 
   Clock, 
   FileCheck, 
-  BookOpen, 
-  ExternalLink,
   ArrowLeft,
-  Download,
   FileText,
   CheckCircle,
-  User
 } from "lucide-react"
 import Link from "next/link"
 
@@ -72,7 +68,7 @@ export default async function DiplomaDetailPage({ params }: PageProps) {
           </div>
 
           {/* Hero Section */}
-          <div className="bg-gradient-to-br from-brand-50 to-brand-100 dark:from-brand-950 dark:to-brand-900 rounded-lg p-8 mb-8">
+          <div className="bg-linear-to-br from-brand-50 to-brand-100 dark:from-brand-950 dark:to-brand-900 rounded-lg p-8 mb-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
                 <Badge className="mb-3">{course.code}</Badge>
@@ -192,7 +188,7 @@ export default async function DiplomaDetailPage({ params }: PageProps) {
                     <p className="text-muted-foreground">Detailed curriculum will be shared upon enrollment.</p>
                   )}
                   
-                  {course.syllabusUrl && (
+                  {/* {course.syllabusUrl && (
                     <div className="mt-6 pt-6 border-t">
                       <h4 className="font-medium mb-3">Download Complete Syllabus</h4>
                       <Button asChild>
@@ -207,7 +203,7 @@ export default async function DiplomaDetailPage({ params }: PageProps) {
                         </a>
                       </Button>
                     </div>
-                  )}
+                  )} */}
                 </CardContent>
               </Card>
             </TabsContent>
@@ -235,7 +231,7 @@ export default async function DiplomaDetailPage({ params }: PageProps) {
                         </a>
                       </Button>
                     )}
-                    <Button variant="outline" className="justify-start h-auto p-4" asChild>
+                    {/* <Button variant="outline" className="justify-start h-auto p-4" asChild>
                       <Link href="/apply">
                         <div className="flex items-center gap-3">
                           <FileText className="h-5 w-5" />
@@ -245,7 +241,7 @@ export default async function DiplomaDetailPage({ params }: PageProps) {
                           </div>
                         </div>
                       </Link>
-                    </Button>
+                    </Button> */}
                     <Button variant="outline" className="justify-start h-auto p-4" asChild>
                       <Link href="/contact">
                         <div className="flex items-center gap-3">
@@ -282,11 +278,11 @@ export default async function DiplomaDetailPage({ params }: PageProps) {
                           Contact Admissions
                         </Link>
                       </Button>
-                      <Button size="lg" variant="outline" asChild>
+                      {/* <Button size="lg" variant="outline" asChild>
                         <Link href="/apply">
                           Apply Now
                         </Link>
-                      </Button>
+                      </Button> */}
                     </div>
                   </div>
                 </CardContent>

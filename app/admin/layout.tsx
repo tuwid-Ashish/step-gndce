@@ -19,7 +19,7 @@ export default async function AdminLayout({
   return (
     <div className="min-h-screen bg-background">
       {/* Admin Header */}
-      <header className="border-b border-border bg-background">
+      {/* <header className="border-b border-border bg-background">
         <Container>
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center gap-4">
@@ -43,7 +43,7 @@ export default async function AdminLayout({
             </div>
           </div>
         </Container>
-      </header>
+      </header> */}
 
       {/* Admin Sidebar Navigation */}
       <div className="flex min-h-[calc(100vh-4rem)]">

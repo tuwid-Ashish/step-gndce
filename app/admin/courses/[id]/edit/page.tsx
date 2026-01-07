@@ -99,7 +99,7 @@ export default async function EditCoursePage({
               />
             </div>
 
-            <div className="grid gap-6 md:grid-cols-3">
+            <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-2">
                 <label htmlFor="type" className="text-sm font-medium">
                   Type *
@@ -116,6 +116,29 @@ export default async function EditCoursePage({
                 </select>
               </div>
 
+              <div className="space-y-2">
+                <label htmlFor="category" className="text-sm font-medium">
+                  Category *
+                </label>
+                <select
+                  id="category"
+                  name="category"
+                  required
+                  defaultValue={course.category}
+                  className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="CS_IT">CS & IT</option>
+                  <option value="MECHANICAL">Mechanical</option>
+                  <option value="CIVIL">Civil</option>
+                  <option value="ELECTRONICS">Electronics</option>
+                  <option value="MANAGEMENT">Management</option>
+                  <option value="FASHION">Fashion</option>
+                  <option value="OTHER">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-2">
                 <label htmlFor="duration" className="text-sm font-medium">
                   Duration *

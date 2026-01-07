@@ -1,9 +1,8 @@
 import { prisma } from "@/lib/prisma"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Briefcase, Clock, FileCheck } from "lucide-react"
-import Link from "next/link"
+import { Briefcase } from "lucide-react"
+import { TrainingFilter } from "./training-filter"
 
 export const dynamic = 'force-dynamic'
 
@@ -12,15 +11,32 @@ export const metadata = {
   description: "Short-term industrial training programs for skill development"
 }
 
+const categoryOrder = ["CS_IT", "MECHANICAL", "CIVIL", "ELECTRONICS", "MANAGEMENT", "FASHION", "OTHER"] as const
+
 export default async function TrainingsPage() {
-  const trainings = await prisma.course.findMany({
+  const trainingsData = await prisma.course.findMany({
     where: {
       type: "INDUSTRIAL_TRAINING",
       isActive: true
     },
-    orderBy: {
-      createdAt: "desc"
+    select: {
+      id: true,
+      slug: true,
+      code: true,
+      title: true,
+      description: true,
+      category: true,
+      duration: true,
+      eligibility: true,
+      highlights: true,
     }
+  })
+
+  // Sort trainings by category order
+  const trainings = trainingsData.sort((a, b) => {
+    const indexA = categoryOrder.indexOf(a.category as any)
+    const indexB = categoryOrder.indexOf(b.category as any)
+    return indexA - indexB
   })
 
   return (
@@ -41,7 +57,6 @@ export default async function TrainingsPage() {
           </p>
         </div>
 
-        {/* Trainings Grid */}
         {trainings.length === 0 ? (
           <Card>
             <CardContent className="py-16 text-center">
@@ -53,74 +68,7 @@ export default async function TrainingsPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {trainings.map((training) => (
-              <Card
-                key={training.id}
-                className="group transition-all hover:shadow-lg"
-              >
-                <CardHeader>
-                  <div className="mb-3 flex items-start justify-between">
-                    <Badge variant="secondary">{training.code}</Badge>
-                    {training.eligibility && (
-                      <span className="text-xs text-muted-foreground">
-                        {training.eligibility}
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="text-xl font-bold group-hover:text-primary">
-                    {training.title}
-                  </h3>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {training.description && (
-                    <p className="line-clamp-3 text-sm text-muted-foreground">
-                      {training.description}
-                    </p>
-                  )}
-
-                  <div className="flex items-center gap-4 text-sm">
-                    <div className="flex items-center gap-1 text-muted-foreground">
-                      <Clock className="h-4 w-4" />
-                      <span>{training.duration}</span>
-                    </div>
-                    {training.highlights.length > 0 && (
-                      <div className="flex items-center gap-1 text-muted-foreground">
-                        <FileCheck className="h-4 w-4" />
-                        <span>{training.highlights.length} topics</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {training.highlights.length > 0 && (
-                    <div className="space-y-1">
-                      <p className="text-xs font-medium text-muted-foreground">
-                        Key Topics:
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {training.highlights.slice(0, 3).map((highlight, idx) => (
-                          <Badge key={idx} variant="outline" className="text-xs">
-                            {highlight}
-                          </Badge>
-                        ))}
-                        {training.highlights.length > 3 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{training.highlights.length - 3} more
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-                  )}
-
-                  <Button className="w-full" asChild>
-                    <Link href={`/industrial-trainings/${training.slug}`}>
-                      View Details
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <TrainingFilter trainings={trainings} />
         )}
       </div>
     </div>

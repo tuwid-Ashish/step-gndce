@@ -22,6 +22,7 @@ export async function createCourse(formData: FormData) {
   const code = formData.get("code") as string
   const description = formData.get("description") as string
   const type = formData.get("type") as "DIPLOMA" | "INDUSTRIAL_TRAINING"
+  const category = formData.get("category") as "CS_IT" | "MECHANICAL" | "CIVIL" | "ELECTRONICS" | "MANAGEMENT" | "FASHION" | "OTHER"
   const duration = formData.get("duration") as string
   const eligibility = formData.get("eligibility") as string | null
   const syllabusUrl = formData.get("syllabusUrl") as string | null
@@ -41,6 +42,7 @@ export async function createCourse(formData: FormData) {
       code,
       description,
       type,
+      category,
       duration,
       eligibility,
       syllabusUrl,
@@ -66,6 +68,7 @@ export async function updateCourse(id: string, formData: FormData) {
   const code = formData.get("code") as string
   const description = formData.get("description") as string
   const type = formData.get("type") as "DIPLOMA" | "INDUSTRIAL_TRAINING"
+  const category = formData.get("category") as "CS_IT" | "MECHANICAL" | "CIVIL" | "ELECTRONICS" | "MANAGEMENT" | "FASHION" | "OTHER"
   const duration = formData.get("duration") as string
   const eligibility = formData.get("eligibility") as string | null
   const syllabusUrl = formData.get("syllabusUrl") as string | null
@@ -83,6 +86,7 @@ export async function updateCourse(id: string, formData: FormData) {
       code,
       description,
       type,
+      category,
       duration,
       eligibility,
       syllabusUrl,

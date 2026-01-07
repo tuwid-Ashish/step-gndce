@@ -1,9 +1,8 @@
 import { prisma } from "@/lib/prisma"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { GraduationCap, Clock, FileCheck } from "lucide-react"
-import Link from "next/link"
+import { GraduationCap } from "lucide-react"
+import { DiplomaFilter } from "./diploma-filter"
 
 export const dynamic = 'force-dynamic'
 
@@ -12,15 +11,32 @@ export const metadata = {
   description: "Explore our 1-year diploma programs in various fields"
 }
 
+const categoryOrder = ["CS_IT", "MECHANICAL", "CIVIL", "ELECTRONICS", "MANAGEMENT", "FASHION", "OTHER"] as const
+
 export default async function DiplomasPage() {
-  const diplomas = await prisma.course.findMany({
+  const diplomasData = await prisma.course.findMany({
     where: {
       type: "DIPLOMA",
       isActive: true
     },
-    orderBy: {
-      createdAt: "desc"
+    select: {
+      id: true,
+      slug: true,
+      code: true,
+      title: true,
+      description: true,
+      category: true,
+      duration: true,
+      eligibility: true,
+      highlights: true,
     }
+  })
+
+  // Sort diplomas by category order
+  const diplomas = diplomasData.sort((a, b) => {
+    const indexA = categoryOrder.indexOf(a.category as any)
+    const indexB = categoryOrder.indexOf(b.category as any)
+    return indexA - indexB
   })
 
   return (
@@ -41,7 +57,6 @@ export default async function DiplomasPage() {
           </p>
         </div>
 
-        {/* Diplomas Grid */}
         {diplomas.length === 0 ? (
           <Card>
             <CardContent className="py-16 text-center">
@@ -53,74 +68,7 @@ export default async function DiplomasPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {diplomas.map((diploma) => (
-              <Card
-                key={diploma.id}
-                className="group transition-all hover:shadow-lg"
-              >
-                <CardHeader>
-                  <div className="mb-3 flex items-start justify-between">
-                    <Badge variant="secondary">{diploma.code}</Badge>
-                    {diploma.eligibility && (
-                      <span className="text-xs text-muted-foreground">
-                        {diploma.eligibility}
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="text-xl font-bold group-hover:text-primary">
-                    {diploma.title}
-                  </h3>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {diploma.description && (
-                    <p className="line-clamp-3 text-sm text-muted-foreground">
-                      {diploma.description}
-                    </p>
-                  )}
-
-                  <div className="flex items-center gap-4 text-sm">
-                    <div className="flex items-center gap-1 text-muted-foreground">
-                      <Clock className="h-4 w-4" />
-                      <span>{diploma.duration}</span>
-                    </div>
-                    {diploma.highlights.length > 0 && (
-                      <div className="flex items-center gap-1 text-muted-foreground">
-                        <FileCheck className="h-4 w-4" />
-                        <span>{diploma.highlights.length} modules</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {diploma.highlights.length > 0 && (
-                    <div className="space-y-1">
-                      <p className="text-xs font-medium text-muted-foreground">
-                        Key Areas:
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {diploma.highlights.slice(0, 3).map((highlight, idx) => (
-                          <Badge key={idx} variant="outline" className="text-xs">
-                            {highlight}
-                          </Badge>
-                        ))}
-                        {diploma.highlights.length > 3 && (
-                          <Badge variant="outline" className="text-xs">
-                            +{diploma.highlights.length - 3} more
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-                  )}
-
-                  <Button className="w-full" asChild>
-                    <Link href={`/diplomas/${diploma.slug}`}>
-                      View Details
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <DiplomaFilter diplomas={diplomas} />
         )}
       </div>
     </div>

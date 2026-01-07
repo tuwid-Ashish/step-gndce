@@ -111,7 +111,20 @@ export default async function ManageCoursesPage() {
   )
 }
 
-function CourseCard({ course }: { course: { id: string; title: string; code: string; type: string; duration: string; isActive: boolean; description?: string | null; eligibility?: string | null; syllabusUrl?: string | null; highlights: string[] } }) {
+function CourseCard({ course }: { course: { id: string; title: string; code: string; type: string; category: string; duration: string; isActive: boolean; description?: string | null; eligibility?: string | null; syllabusUrl?: string | null; highlights: string[] } }) {
+  const getCategoryLabel = (category: string) => {
+    const labels: Record<string, string> = {
+      CS_IT: "CS & IT",
+      MECHANICAL: "Mechanical",
+      CIVIL: "Civil",
+      ELECTRONICS: "Electronics",
+      MANAGEMENT: "Management",
+      FASHION: "Fashion",
+      OTHER: "Other"
+    }
+    return labels[category] || category
+  }
+
   return (
     <Card>
       <CardContent className="pt-6">
@@ -135,6 +148,7 @@ function CourseCard({ course }: { course: { id: string; title: string; code: str
 
             <div className="flex flex-wrap items-center gap-2">
               <Badge>{course.type === "DIPLOMA" ? "Diploma" : "Training"}</Badge>
+              <Badge variant="secondary">{getCategoryLabel(course.category)}</Badge>
               <Badge variant="secondary">{course.duration}</Badge>
               {course.eligibility && (
                 <Badge variant="outline">Eligibility: {course.eligibility}</Badge>

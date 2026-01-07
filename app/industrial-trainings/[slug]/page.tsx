@@ -10,7 +10,6 @@ import {
   Clock, 
   FileCheck, 
   ArrowLeft,
-  Download,
   FileText,
   CheckCircle
 } from "lucide-react"
@@ -69,7 +68,7 @@ export default async function TrainingDetailPage({ params }: PageProps) {
           </div>
 
           {/* Hero Section */}
-          <div className="bg-gradient-to-br from-orange-50 to-amber-100 dark:from-orange-950 dark:to-amber-900 rounded-lg p-8 mb-8">
+          <div className="bg-linear-to-br from-orange-50 to-amber-100 dark:from-orange-950 dark:to-amber-900 rounded-lg p-8 mb-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
                 <Badge className="mb-3">{course.code}</Badge>
@@ -182,7 +181,7 @@ export default async function TrainingDetailPage({ params }: PageProps) {
                     <p className="text-muted-foreground">Detailed topics will be shared upon enrollment.</p>
                   )}
                   
-                  {course.syllabusUrl && (
+                  {/* {course.syllabusUrl && (
                     <div className="mt-6 pt-6 border-t">
                       <h4 className="font-medium mb-3">Download Complete Training Plan</h4>
                       <Button asChild>
@@ -197,7 +196,7 @@ export default async function TrainingDetailPage({ params }: PageProps) {
                         </a>
                       </Button>
                     </div>
-                  )}
+                  )} */}
                 </CardContent>
               </Card>
             </TabsContent>
@@ -225,7 +224,7 @@ export default async function TrainingDetailPage({ params }: PageProps) {
                         </a>
                       </Button>
                     )}
-                    <Button variant="outline" className="justify-start h-auto p-4" asChild>
+                    {/* <Button variant="outline" className="justify-start h-auto p-4" asChild>
                       <Link href="/apply">
                         <div className="flex items-center gap-3">
                           <FileText className="h-5 w-5" />
@@ -235,7 +234,7 @@ export default async function TrainingDetailPage({ params }: PageProps) {
                           </div>
                         </div>
                       </Link>
-                    </Button>
+                    </Button> */}
                     <Button variant="outline" className="justify-start h-auto p-4" asChild>
                       <Link href="/contact">
                         <div className="flex items-center gap-3">
@@ -272,11 +271,11 @@ export default async function TrainingDetailPage({ params }: PageProps) {
                           Contact Training Cell
                         </Link>
                       </Button>
-                      <Button size="lg" variant="outline" asChild>
+                      {/* <Button size="lg" variant="outline" asChild>
                         <Link href="/apply">
                           Register Now
                         </Link>
-                      </Button>
+                      </Button> */}
                     </div>
                   </div>
                 </CardContent>
