@@ -131,7 +131,7 @@ export default function IncubationPage() {
           </div>
 
           {/* TODO: Add more sections */}
-          <div className="bg-brand-50 rounded-lg p-6">
+          {/* <div className="bg-brand-50 rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-4">Coming Soon</h2>
             <ul className="space-y-2 text-muted-foreground">
               <li>• Detailed incubation process timeline</li>
@@ -141,7 +141,7 @@ export default function IncubationPage() {
               <li>• Infrastructure and facility details</li>
               <li>• Partnership opportunities with corporates</li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </Container>
     </div>

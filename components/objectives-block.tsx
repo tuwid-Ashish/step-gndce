@@ -7,7 +7,7 @@ export function ObjectivesBlock({ objectives }: ObjectivesBlockProps) {
     <section className="py-12 md:py-16 bg-muted/30">
       <div className="mx-auto max-w-[1320px] px-5">
         <h2 className="mb-8 text-center text-2xl font-bold md:text-3xl">
-          Institute Objectives
+          Our Objectives
         </h2>
         <div className="grid gap-4 md:grid-cols-2">
           {objectives.map((objective, i) => (

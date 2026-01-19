@@ -126,7 +126,7 @@ export default function ResultsPage() {
           </div>
 
           {/* TODO: Add more sections */}
-          <div className="bg-brand-50 rounded-lg p-6 mt-8">
+          {/* <div className="bg-brand-50 rounded-lg p-6 mt-8">
             <h2 className="text-xl font-semibold mb-4">Coming Soon</h2>
             <ul className="space-y-2 text-muted-foreground">
               <li>• Result download as PDF</li>
@@ -136,7 +136,7 @@ export default function ResultsPage() {
               <li>• SMS and email result notifications</li>
               <li>• Revaluation request system</li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </Container>
     </div>

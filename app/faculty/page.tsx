@@ -93,6 +93,7 @@ export default async function FacultyPage() {
                       name={faculty.name}
                       title={faculty.designation}
                       dept={faculty.department}
+                      photo={faculty.photoUrl ?? undefined}
                       specialization={faculty.specialization || ""}
                     />
                   ))}
@@ -121,6 +122,7 @@ export default async function FacultyPage() {
                         name={faculty.name}
                         title={faculty.designation}
                         dept={faculty.department}
+                        photo={faculty.photoUrl ?? undefined}
                         specialization={faculty.specialization || ""}
                       />
                     ))}
@@ -150,6 +152,7 @@ export default async function FacultyPage() {
                         name={faculty.name}
                         title={faculty.designation}
                         dept={faculty.department}
+                        photo={faculty.photoUrl ?? undefined}
                         specialization={faculty.specialization || ""}
                       />
                     ))}
@@ -179,6 +182,7 @@ export default async function FacultyPage() {
                         name={faculty.name}
                         title={faculty.designation}
                         dept={faculty.department}
+                        photo={faculty.photoUrl ?? undefined}
                         specialization={faculty.specialization || ""}
                       />
                     ))}

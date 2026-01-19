@@ -12,7 +12,6 @@ interface StartupPageProps {
 
 export async function generateMetadata({ params }: StartupPageProps) {
   const { slug } = await params
-  console.log(slug);
   
   
   return {

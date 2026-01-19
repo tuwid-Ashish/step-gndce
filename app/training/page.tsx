@@ -128,7 +128,7 @@ export default function TrainingPage() {
           </div>
 
           {/* TODO: Add more sections */}
-          <div className="bg-brand-50 rounded-lg p-6">
+          {/* <div className="bg-brand-50 rounded-lg p-6">
             <h2 className="text-xl font-semibold mb-4">Coming Soon</h2>
             <ul className="space-y-2 text-muted-foreground">
               <li>• Detailed course curriculum and syllabus</li>
@@ -138,7 +138,7 @@ export default function TrainingPage() {
               <li>• Batch schedules and enrollment dates</li>
               <li>• Online learning portal integration</li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </Container>
     </div>

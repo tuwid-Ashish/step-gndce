@@ -29,13 +29,16 @@ export default async function DiplomasPage() {
       duration: true,
       eligibility: true,
       highlights: true,
+    },
+    orderBy:{
+      createdAt: "desc"
     }
   })
 
   // Sort diplomas by category order
   const diplomas = diplomasData.sort((a, b) => {
-    const indexA = categoryOrder.indexOf(a.category as any)
-    const indexB = categoryOrder.indexOf(b.category as any)
+    const indexA = categoryOrder.indexOf(a.category as  typeof categoryOrder[number])
+    const indexB = categoryOrder.indexOf(b.category as  typeof categoryOrder[number])
     return indexA - indexB
   })
 

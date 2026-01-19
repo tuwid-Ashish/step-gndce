@@ -34,8 +34,8 @@ export default async function TrainingsPage() {
 
   // Sort trainings by category order
   const trainings = trainingsData.sort((a, b) => {
-    const indexA = categoryOrder.indexOf(a.category as any)
-    const indexB = categoryOrder.indexOf(b.category as any)
+    const indexA = categoryOrder.indexOf(a.category as typeof categoryOrder[number])
+    const indexB = categoryOrder.indexOf(b.category as typeof categoryOrder[number])
     return indexA - indexB
   })
 

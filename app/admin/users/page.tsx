@@ -135,7 +135,7 @@ export default async function ManageUsersPage() {
       </Card>
 
       {/* TODO Notice */}
-      <Card className="border-brand-200 bg-brand-50">
+      {/* <Card className="border-brand-200 bg-brand-50">
         <CardHeader>
           <CardTitle>Coming Soon</CardTitle>
         </CardHeader>
@@ -149,7 +149,7 @@ export default async function ManageUsersPage() {
             <li>• Integration with LDAP/SSO systems</li>
           </ul>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   )
 }

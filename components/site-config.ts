@@ -8,6 +8,7 @@ export interface NavItem {
 export const nav = {
   main: [
     { label: "Home", href: "/", description: "STEP Institute homepage" },
+    { label: "About", href: "/about", description: "Learn about STEP GNDEC" },
 
     {
       label: "Academics",
@@ -25,14 +26,14 @@ export const nav = {
       href: "/entrepreneurship",
       description: "Startup incubation programs",
       children: [
-        { label: "Overview", href: "/entrepreneurship", description: "Entrepreneurship programs overview" },
+        // { label: "Overview", href: "/entrepreneurship", description: "Entrepreneurship programs overview" },
         { label: "Startup Incubation", href: "/incubation", description: "Startup incubation and support programs" },
         { label: "Events", href: "/events", description: "Entrepreneurship events and workshops" },
         { label: "Startups & Support", href: "/startups", description: "Our incubated startup portfolio" },
       ]
     },
     { label: "Faculty & Staff", href: "/faculty", description: "Meet our faculty and staff" },
-    { label: "Blog", href: "/blog", description: "Industry insights and updates" },
+    // { label: "Blog", href: "/blog", description: "Industry insights and updates" },
     { label: "Contact", href: "/contact", description: "Get in touch with us" },
   ],
   ctas: [
@@ -45,17 +46,17 @@ export const footerLinks = {
   quickLinks: [
     { title: "About Us", href: "/about" },
     { title: "Diplomas", href: "/diplomas" },
+    // { title: "Results", href: "/results" },
     { title: "Faculty & Staff", href: "/faculty" },
-    { title: "Results", href: "/results" },
     { title: "Notice Board", href: "/notices" },
-    { title: "Downloads", href: "/downloads" }
+    // { title: "Downloads", href: "/downloads" }
   ],
   resources: [
-    { title: "Blog", href: "/blog" },
+    // { title: "Blog", href: "/blog" },
     { title: "Startups", href: "/startups" },
-    { title: "Entrepreneurship", href: "/entrepreneurship" },
     { title: "Contact", href: "/contact" },
-    { title: "Apply Now", href: "/apply" }
+    { title: "Apply Now", href: "/apply" },
+    { title: "Entrepreneurship", href: "/entrepreneurship" },
   ]
 }
 
@@ -69,10 +70,10 @@ export const siteConfig = {
     address: "STEP Institute Campus, GNDCE, Ludhiana, Punjab 141006"
   },
   social: {
-    facebook: "https://facebook.com/stepinstitute",
-    twitter: "https://twitter.com/stepinstitute",
-    linkedin: "https://linkedin.com/company/stepinstitute",
-    instagram: "https://instagram.com/stepinstitute"
+    facebook: "https://www.facebook.com/p/Step-Gndec-100081516967348/",
+    // twitter: "https://twitter.com/stepinstitute",
+    linkedin: "https://www.linkedin.com/in/step-gndec-835624367/?originalSubdomain=in",
+    instagram: "https://www.instagram.com/step.gndec/"
   },
   languages: [
     { code: "en", name: "English" },

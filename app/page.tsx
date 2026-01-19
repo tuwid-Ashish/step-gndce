@@ -3,41 +3,52 @@ import { Container } from "@/components/container"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { DiplomaCard } from "@/components/diploma-card"
-import { ProgramCard } from "@/components/program-card"
 import { DirectorStrip } from "@/components/director-strip"
 import { ObjectivesBlock } from "@/components/objectives-block"
 import { Testimonials } from "@/components/testimonials"
 import { IncubatorTrust } from "@/components/incubator-trust"
 import { director, objectives, testimonials, incubator } from "@/app/_data/legacy"
-import { Trophy, GraduationCap, ArrowRight, Rocket, TrendingUp, Clock, Phone, Mail, MessageCircle, MapPin } from "lucide-react"
+import { Trophy, GraduationCap, ArrowRight, TrendingUp,} from "lucide-react"
+import { prisma } from "@/lib/prisma"
 
 // TODO: replace with the actual STEP asset URLs or move files into /public and point there.
 const HERO_POSTER ="/image.png" // <- update path
 
 export const metadata = {
-  title: "STEP – Train. Incubate. Launch.",
+  title: "STEP - Train. Incubate. Launch.",
   description:
-    "One-year Diplomas & PG Diplomas,industrial trainings, and entrepreneurship programs at GNDEC, Ludhiana – with results, notices, and startup updates."
+    "One-year Diplomas & PG Diplomas,industrial trainings, and entrepreneurship programs at GNDEC, Ludhiana"
 }
 
-// Mock data (replace from DB/admin later)
-const diplomas = [
-  { slug: "diploma-computer-application", title: "Diploma in Computer Application (DCA)", blurb: "Software basics, office automation & practical computing.", duration: "1 Year", eligibility: "+2", fee: "—" },
-  { slug: "diploma-business-administration", title: "Diploma in Business Administration (DBA)", blurb: "Foundational business skills for jobs & family businesses.", duration: "1 Year", eligibility: "+2", fee: "—" },
-  { slug: "diploma-fashion-technology", title: "Diploma in Fashion Technology", blurb: "Design, pattern-making & garment production.", duration: "1 Year", eligibility: "+2", fee: "—" },
-  { slug: "diploma-cad-cnc", title: "Diploma in CAD & CNC Programming", blurb: "CAD modelling with CNC programming basics.", duration: "1 Year", eligibility: "+2", fee: "—" }
-]
+const diplomasData = await prisma.course.findMany({
+    where: {
+      type: "DIPLOMA",
+      isActive: true
+    },
+    select: {
+      id: true,
+      slug: true,
+      code: true,
+      title: true,
+      description: true,
+      category: true,
+      duration: true,
+      eligibility: true,
+      highlights: true,
+    },
+    orderBy:{
+      createdAt: "asc"
+    },
+    take: 4
+  })
 
-const notices = [
-  { id: "1", title: "Admissions Open (Diploma/PG Diploma)", slug: "admissions-open", excerpt: "Apply now. Limited seats.", date: "2025-10-20", pinned: true },
-  { id: "2", title: "Exam Results Published", slug: "exam-results", excerpt: "Check your result using roll number.", date: "2025-10-25", pinned: true }
-]
+// Mock data (replace from DB/admin later)
 
 const startups = [
-  { name: "TechSolve", href: "/startups/techsolve" },
-  { name: "GreenLife", href: "/startups/greenlife" },
-  { name: "DataInsight", href: "/startups/datainsight" },
-  { name: "EduTech Pro", href: "/startups/edutech-pro" }
+  { name: "My Virtual Teams", href: "/startups/" },
+  { name: "Radius 7 Innovation", href: "/startups/" },
+  { name: "Invent Infotech", href: "/startups/" },
+  { name: "Wesualize Design", href: "/startups/" }
 ]
 
 export default function HomePage() {
@@ -77,10 +88,10 @@ export default function HomePage() {
                 <Button size="lg" asChild>
                   <Link href="/apply"><GraduationCap className="mr-2 h-5 w-5" /> Apply</Link>
                 </Button>
-                <Button size="lg" variant="outline" className="" asChild>
+                <Button size="lg" variant="outline" className="bg-transparent" asChild>
                   <Link href="/diplomas">View Diplomas <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
-                <Button size="lg" variant="outline" asChild>
+                <Button size="lg" variant="outline" className="bg-transparent" asChild>
                   <Link href="/results"><Trophy className="mr-2 h-5 w-5" /> Check Results</Link>
                 </Button>
               </div>
@@ -115,7 +126,7 @@ export default function HomePage() {
         <Container>
           <Header title="Diploma Highlights" subtitle="Professional diplomas designed for industry readiness" cta={{ label: "View all", href: "/diplomas" }} />
           <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {diplomas.map((d) => (
+            {diplomasData.map((d) => (
               <DiplomaCard key={d.slug} {...d} />
             ))}
           </div>
@@ -126,75 +137,6 @@ export default function HomePage() {
 
       {/* DIRECTOR MESSAGE */}
       <DirectorStrip director={director} />
-
-
-      {/* NOTICE BOARD + RESULTS */}
-      {/* <section className="bg-brand-50/40 py-14">
-        <Container>
-          <div className="grid gap-8 lg:grid-cols-3">
-            <div className="lg:col-span-2">
-              <div className="mb-4 flex items-center justify-between">
-                <h2 className="text-2xl font-semibold">Notice Board</h2>
-                <UpdateTag variant="info">Live</UpdateTag>
-              </div>
-              <div className="grid gap-3">
-                {notices.map((n) => <NoticeCard key={n.id} notice={n} />)}
-              </div>
-              <div className="mt-5">
-                <Button variant="outline" asChild><Link href="/notices">View all</Link></Button>
-              </div>
-            </div>
-
-            {/* Results callout
-            <div>
-              <Card className="border-primary/20 bg-linear-to-br from-primary/5 to-brand-600/5">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2"><Trophy className="h-5 w-5 text-primary" /> Check Your Result</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Enter your roll number to view results. Some exams may require DOB verification.
-                  </p>
-                  <div className="mt-4 space-y-3">
-                    <Button className="w-full" asChild><Link href="/results">View Results</Link></Button>
-                    <Button variant="outline" className="w-full" asChild><Link href="/notices">Latest Result Notices</Link></Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </Container>
-      </section> */}
-
-      {/* ENTREPRENEURSHIP */}
-      <section className="py-14">
-        <Container>
-          <Header
-            title="Entrepreneurship @ STEP"
-            subtitle="Right place to turn ideas into businesses with guidance & support"
-            cta={{ label: "Explore programs", href: "/entrepreneurship" }}
-            icon={<Rocket className="h-8 w-8 text-primary" />}
-          />
-          <div className="mt-6 grid gap-5 md:grid-cols-2">
-            <ProgramCard
-              title="Entrepreneurship Awareness Camp (EAC)"
-              description="Spark entrepreneurial thinking & explore opportunity identification."
-              duration="3 Days"
-              participants="—"
-              href="/entrepreneurship"
-              applyHref="/apply"
-            />
-            <ProgramCard
-              title="Entrepreneurship Development Programme (EDP)"
-              description="From idea to plan to execution with mentoring & reviews."
-              duration="6–8 Weeks"
-              participants="—"
-              href="/entrepreneurship"
-              applyHref="/apply"
-            />
-          </div>
-        </Container>
-      </section>
 
       {/* STARTUPS SPOTLIGHT */}
       <section className="bg-brand-50/30 py-14">
@@ -218,7 +160,7 @@ export default function HomePage() {
       </section>
 
       {/* CONTACT STRIP (single source of truth) */}
-      <section className="border-y border-border bg-card py-10">
+      {/* <section className="border-y border-border bg-card py-10">
         <Container>
           <div className="grid items-center gap-6 text-center md:grid-cols-2 lg:grid-cols-4">
             <ContactItem icon={<Phone className="h-7 w-7 text-primary" />} title="Call" body={<a href="tel:+917837100954" className="hover:text-primary">+91 78371 00954</a>} />
@@ -231,7 +173,7 @@ export default function HomePage() {
             Mon–Fri 09:00–17:00 · Sat 09:00–13:00
           </div>
         </Container>
-      </section>
+      </section> */}
     </div>
   )
 }
@@ -282,12 +224,12 @@ function Block({ title, items }: { title: string; items: string[] }) {
   )
 }
 
-function ContactItem({ icon, title, body }: { icon: React.ReactNode; title: string; body: React.ReactNode }) {
-  return (
-    <div className="flex flex-col items-center">
-      <div className="mb-2">{icon}</div>
-      <p className="font-medium">{title}</p>
-      <div className="text-muted-foreground">{body}</div>
-    </div>
-  )
-}
+// function ContactItem({ icon, title, body }: { icon: React.ReactNode; title: string; body: React.ReactNode }) {
+//   return (
+//     <div className="flex flex-col items-center">
+//       <div className="mb-2">{icon}</div>
+//       <p className="font-medium">{title}</p>
+//       <div className="text-muted-foreground">{body}</div>
+//     </div>
+//   )
+// }

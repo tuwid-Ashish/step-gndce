@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from "lucide-react"
+import { Facebook, Linkedin, Instagram, Mail, Phone, MapPin } from "lucide-react"
 
 import { Container } from "@/components/container"
 import { MainLogo } from "@/components/main-logo"
@@ -107,7 +107,7 @@ export function SiteFooter() {
               >
                 <Facebook className="h-4 w-4" />
               </a>
-              <a
+              {/* <a
                 href={siteConfig.social.twitter}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -115,7 +115,7 @@ export function SiteFooter() {
                 aria-label="Twitter"
               >
                 <Twitter className="h-4 w-4" />
-              </a>
+              </a> */}
               <a
                 href={siteConfig.social.linkedin}
                 target="_blank"

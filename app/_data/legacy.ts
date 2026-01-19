@@ -25,22 +25,22 @@ export const objectives: string[] = [
 
 export const testimonials = [
   {
-    name: "Student Name 1",
+    name: "Gurpreet Singh",
     role: "Student",
-    photoUrl: "/step-assets/review1.jpg", // TODO: Upload actual testimonial photos
-    quote: "Placeholder testimonial quote from a student about their experience at STEP."
+    photoUrl: "https://stepgndec.com/wp-content/themes/STEPv8/img/smiling-student-girl-in-eyeglasses-with-books-happ-LGZSH4B.jpg", // TODO: Upload actual testimonial photos
+    quote: "The teacher-student interaction was great. The teachers were very friendly because of which I could clarify many of my doubts."
   },
   {
-    name: "Alumni Name",
-    role: "Alumni",
-    photoUrl: "/step-assets/review2.jpg",
-    quote: "Placeholder testimonial quote from an alumni about how STEP helped their career."
+    name: "Karamveer Singh",
+    role: "Student",
+    photoUrl: "https://stepgndec.com/wp-content/themes/STEPv8/img/P2UGM57.jpg",
+    quote: "I like the faculty and I feel I had the best environment for my studies."
   },
   {
-    name: "Parent Name",
-    role: "Parent",
-    photoUrl: "/step-assets/review3.jpg",
-    quote: "Placeholder testimonial quote from a parent about their child's experience at STEP."
+    name: "Harmanpreet Singh",
+    role: "Student",
+    photoUrl: "https://stepgndec.com/wp-content/themes/STEPv8/img/portrait-of-male-student-standing-in-college-build-PQG6E9T.jpg",
+    quote: "The teacher-student interaction was great. The teachers were very friendly because of which I could clarify many of my doubts."
   }
 ]
 

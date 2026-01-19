@@ -245,7 +245,7 @@ export default function StaffPage() {
           </Card>
 
           {/* TODO: Add more sections */}
-          <div className="bg-brand-50 rounded-lg p-6 mt-12">
+          {/* <div className="bg-brand-50 rounded-lg p-6 mt-12">
             <h2 className="text-xl font-semibold mb-4">Coming Soon</h2>
             <ul className="space-y-2 text-muted-foreground">
               <li>• Staff training and development programs</li>
@@ -255,7 +255,7 @@ export default function StaffPage() {
               <li>• Professional development opportunities</li>
               <li>• Team building and social events</li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </Container>
     </div>

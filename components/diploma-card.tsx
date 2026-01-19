@@ -1,30 +1,35 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Clock, GraduationCap, IndianRupee } from "lucide-react"
+import { Clock, GraduationCap } from "lucide-react"
 import Link from "next/link"
+import { CourseCategory } from "@prisma/client"
 
 export interface DiplomaCardProps {
+ id: string
   slug: string
+  code: string
   title: string
-  fee: string
+  description: string | null
+  category: CourseCategory
   duration: string
-  eligibility: string
-  blurb: string
-  category?: string
+  eligibility: string | null
+  highlights: string[]
 }
 
 export function DiplomaCard({ 
-  slug, 
-  title, 
-  fee, 
-  duration, 
-  eligibility, 
-  blurb, 
-  category 
+   id,
+  slug,
+  code,
+  title,
+  description,
+  category,
+  duration,
+  eligibility,
+  highlights
 }: DiplomaCardProps) {
   return (
-    <Card className="hover:shadow-md transition-shadow h-full flex flex-col">
+    <Card key={id} className="hover:shadow-md transition-shadow h-full flex flex-col">
       <CardHeader>
         <div className="flex items-start justify-between gap-2 mb-2">
           <CardTitle className="text-lg leading-snug">
@@ -42,7 +47,7 @@ export function DiplomaCard({
           )}
         </div>
         <CardDescription className="line-clamp-2">
-          {blurb}
+          {description}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col justify-between">
@@ -51,10 +56,10 @@ export function DiplomaCard({
             <Clock className="h-4 w-4 text-muted-foreground" />
             <span>{duration}</span>
           </div>
-          <div className="flex items-center gap-2 text-sm">
+          {/* <div className="flex items-center gap-2 text-sm">
             <IndianRupee className="h-4 w-4 text-muted-foreground" />
             <span>{fee}</span>
-          </div>
+          </div> */}
           <div className="flex items-center gap-2 text-sm">
             <GraduationCap className="h-4 w-4 text-muted-foreground" />
             <span className="line-clamp-1">{eligibility}</span>

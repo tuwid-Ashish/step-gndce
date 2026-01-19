@@ -23,17 +23,19 @@ export function FacultyCard({
   email,
   specialization 
 }: FacultyCardProps) {
+  
   return (
     <Card className="hover:shadow-md transition-shadow">
       <CardHeader className="text-center">
         <div className="w-20 h-20 mx-auto mb-3 bg-muted rounded-full flex items-center justify-center overflow-hidden">
+          
           {photo ? (
             <Image 
               src={photo} 
               alt={name}
               width={80}
               height={80}
-              className="object-cover w-full h-full"
+              className="object-contain w-full h-full"
             />
           ) : (
             <User className="h-8 w-8 text-muted-foreground" />

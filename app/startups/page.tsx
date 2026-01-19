@@ -2,7 +2,7 @@ import { Container } from "@/components/container"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Building2, Users, TrendingUp, ExternalLink, Rocket } from "lucide-react"
+import { Building2, TrendingUp, ExternalLink, Rocket } from "lucide-react"
 import Link from "next/link"
 import { prisma } from "@/lib/prisma"
 

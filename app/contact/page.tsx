@@ -171,7 +171,7 @@ export default function ContactPage() {
           </div>
 
           {/* TODO: Add map */}
-          <div className="bg-brand-50 rounded-lg p-6 mt-12">
+          {/* <div className="bg-brand-50 rounded-lg p-6 mt-12">
             <h2 className="text-xl font-semibold mb-4">Coming Soon</h2>
             <ul className="space-y-2 text-muted-foreground">
               <li>• Interactive campus map</li>
@@ -181,7 +181,7 @@ export default function ContactPage() {
               <li>• Admission counselor appointments</li>
               <li>• Multi-language support</li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </Container>
     </div>

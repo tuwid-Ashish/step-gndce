@@ -42,9 +42,9 @@ export function IncubatorTrust({ incubator }: IncubatorTrustProps) {
         </div>
 
         <div className="flex flex-wrap justify-center gap-4">
-          <Button asChild size="lg">
+          {/* <Button asChild size="lg">
             <Link href="/entrepreneurship">Explore Programs</Link>
-          </Button>
+          </Button> */}
           <Button asChild variant="outline" size="lg">
             <Link href="/startups">View Startups</Link>
           </Button>

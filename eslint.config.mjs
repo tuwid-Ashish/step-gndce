@@ -14,6 +14,7 @@ const eslintConfig = [
   {
     "rules": {
         "react/no-unescaped-entities": "off", // Example: Disabling a specific rule
+        '@next/next/no-page-custom-font': 'off',
         "no-console": "warn" // Example: Changing a rule to a warning
       },
     ignores: [
