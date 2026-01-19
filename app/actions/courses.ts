@@ -64,6 +64,7 @@ export async function updateCourse(id: string, formData: FormData) {
     throw new Error("Unauthorized")
   }
 
+  
   const title = formData.get("title") as string
   const code = formData.get("code") as string
   const description = formData.get("description") as string
