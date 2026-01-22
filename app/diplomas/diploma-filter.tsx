@@ -149,7 +149,7 @@ export function DiplomaFilter({ diplomas }: { diplomas: Diploma[] }) {
                   </div>
                 )}
 
-                <Button className="w-full" asChild>
+                <Button className="w-full text-white" asChild>
                   <Link href={`/diplomas/${diploma.slug}`}>
                     View Details
                   </Link>

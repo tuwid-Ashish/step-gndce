@@ -63,10 +63,12 @@ export const footerLinks = {
 export const siteConfig = {
   name: "STEP Institute",
   description: "Leading professional training and startup incubation institute",
-  url: "https://step-institute.edu",
+  url: "step.gne@gmail.com",
   contact: {
-    phone: "+91 98765 43210",
-    email: "info@step-institute.edu",
+    phone: ["+91 7837100954",
+"+91 7837100922",
+"+91 7837100924"],
+    email: "step.gne@gmail.com",
     address: "STEP Institute Campus, GNDCE, Ludhiana, Punjab 141006"
   },
   social: {

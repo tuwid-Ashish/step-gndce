@@ -149,7 +149,7 @@ export function TrainingFilter({ trainings }: { trainings: Training[] }) {
                   </div>
                 )}
 
-                <Button className="w-full" asChild>
+                <Button className="w-full text-white" asChild>
                   <Link href={`/industrial-trainings/${training.slug}`}>
                     View Details
                   </Link>

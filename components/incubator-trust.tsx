@@ -45,7 +45,7 @@ export function IncubatorTrust({ incubator }: IncubatorTrustProps) {
           {/* <Button asChild size="lg">
             <Link href="/entrepreneurship">Explore Programs</Link>
           </Button> */}
-          <Button asChild variant="outline" size="lg">
+          <Button asChild variant="outline" className="text-black" size="lg">
             <Link href="/startups">View Startups</Link>
           </Button>
         </div>

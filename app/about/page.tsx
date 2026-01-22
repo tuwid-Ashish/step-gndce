@@ -52,7 +52,7 @@ export default function AboutPage() {
                     Apply Now <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" asChild>
+                <Button size="lg" variant="outline" className="text-black" asChild>
                   <Link href="/contact">Contact Us</Link>
                 </Button>
               </div>
@@ -116,7 +116,7 @@ export default function AboutPage() {
                     Entrepreneurship Programs
                   </Link>
                 </Button>
-                <Button variant="outline" asChild>
+                <Button variant="outline" className="text-black" asChild>
                   <Link href="/startups">View Startups</Link>
                 </Button>
               </div>

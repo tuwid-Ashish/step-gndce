@@ -102,10 +102,22 @@ export default function ContactPage() {
                 <CardContent>
                   <p className="text-muted-foreground mb-2">Call us during office hours</p>
                   <a 
-                    href={`tel:${siteConfig.contact.phone}`}
+                    href={`tel:${siteConfig.contact.phone[0]}`}
                     className="text-lg font-medium hover:text-primary transition-colors"
                   >
-                    {siteConfig.contact.phone}
+                    {siteConfig.contact.phone[0]}
+                  </a> <br />
+                  <a 
+                    href={`tel:${siteConfig.contact.phone[1]}`}
+                    className="text-lg font-medium hover:text-primary transition-colors"
+                  >
+                    {siteConfig.contact.phone[1]}
+                  </a> <br />
+                  <a 
+                    href={`tel:${siteConfig.contact.phone[2]}`}
+                    className="text-lg font-medium hover:text-primary transition-colors"
+                  >
+                    {siteConfig.contact.phone[2]}
                   </a>
                 </CardContent>
               </Card>
@@ -154,11 +166,11 @@ export default function ContactPage() {
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <span>Monday - Friday</span>
-                      <span className="font-medium">9:00 AM - 6:00 PM</span>
+                      <span className="font-medium">9:00 AM - 5:00 PM</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Saturday</span>
-                      <span className="font-medium">9:00 AM - 2:00 PM</span>
+                      <span className="font-medium">9:00 AM - 1:00 PM</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Sunday</span>
@@ -166,6 +178,7 @@ export default function ContactPage() {
                     </div>
                   </div>
                 </CardContent>
+                {/* <p className="mx-4">Call us during office hours +91 7837100954</p> */}
               </Card>
             </div>
           </div>

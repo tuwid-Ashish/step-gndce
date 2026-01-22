@@ -98,8 +98,8 @@ export default function HomePage() {
             </div>
 
             {/* Quick Facts card */}
-            <div className="rounded-xl border border-border bg-card/60 backdrop-blur-sm p-5 shadow-2xl ring-2 ring-black/10">
-              <h3 className="text-center text-xl font-semibold text-primary">Programs at STEP</h3>
+            <div className="rounded-xl border border-border bg-card/60 backdrop-blur-sm p-5 shadow-2xl ring-2 ring-black/10 text-black">
+              <h3 className="text-center text-xl font-semibold text-accent">Programs at STEP</h3>
               <div className="mt-5 grid gap-4">
                 <Block title="One-Year Diplomas" items={["DCA", "DBA", "Fashion", "CAD-CNC"]} />
                 <Block title="PG Diplomas" items={["PGDCA", "PGDBA"]} />
@@ -212,7 +212,7 @@ function Header({
 function Block({ title, items }: { title: string; items: string[] }) {
   return (
     <div className="space-y-2">
-      <h4 className="font-medium text-primary">{title}</h4>
+      <h4 className="font-medium text-accent">{title}</h4>
       <div className="flex flex-wrap gap-2">
         {items.map((i) => (
           <span key={i} className="inline-flex items-center rounded-md bg-brand-50 px-2 py-1 text-xs font-medium text-foreground">
