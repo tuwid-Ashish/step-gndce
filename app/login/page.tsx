@@ -113,9 +113,6 @@ export default function LoginPage() {
 
           <div className="mt-6 text-center text-sm text-muted-foreground">
             <p>Default credentials:</p>
-            <p className="font-mono text-xs mt-1">
-              admin@stepgndec.in / AdminPassword123!
-            </p>
           </div>
         </CardContent>
       </Card>

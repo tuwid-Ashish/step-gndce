@@ -132,17 +132,18 @@ export default async function StartupsPage() {
                           ))}
                         </ul>
                       </div>
-                      <div className="flex gap-2 mt-4">
-                        <Button variant="outline" size="sm" className="flex-1" asChild>
+                        {/* <Button variant="outline" size="sm" className="flex-1" asChild>
                           <Link href={`/startups/${startup.slug}`}>View Details</Link>
-                        </Button>
+                          </Button> */}
+                        <div className="flex gap-2 mt-4">
                         {startup.websiteUrl && (
-                          <Button variant="ghost" size="sm" asChild>
+                          <Button variant="ghost" size="sm" className="flex-1" asChild>
                             <a
                               href={startup.websiteUrl}
                               target="_blank"
                               rel="noopener noreferrer"
                             >
+                             View Details 
                               <ExternalLink className="h-4 w-4" />
                             </a>
                           </Button>
