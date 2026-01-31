@@ -6,7 +6,7 @@
 export const director = {
   name: "Dr. Arvind Dhingra",
   title: "Executive Director, STEP-GNDEC",
-  photoUrl: "https://stepgndec.com/wp-content/themes/STEPv8/img/caucasian-man-standing-mockup-DVM4P39.png", // TODO: Upload actual director photo
+  photoUrl: "/images/executive-director.png",
   quote: "He has 12 Journal and 68 Conference publications with more than 25 years of experience and honoured by IISA award, National Eminent Educator Award.",
   messageHref: "/about/director"
 }

@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { useForm, useFieldArray } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import {
@@ -24,6 +25,7 @@ export interface FacultyFormData {
   email: string
   phone?: string
   photoUrl?: string
+  imageFile?: File
   specialization?: string
   qualifications: string[]
   experience?: string
@@ -93,6 +95,9 @@ const defaultValues: FacultyFormData = {
 }
 
 export function FacultyForm({ initialData, onSubmit, isSubmitting }: FacultyFormProps) {
+  const [useImageUpload, setUseImageUpload] = useState(false)
+  const [imagePreview, setImagePreview] = useState<string | null>(initialData?.photoUrl || null)
+  
   const form = useForm<FacultyFormData>({
     defaultValues: initialData || defaultValues,
     mode: "onChange",
@@ -210,29 +215,83 @@ export function FacultyForm({ initialData, onSubmit, isSubmitting }: FacultyForm
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="photoUrl"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Photo URL</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="https://example.com/photo.jpg" 
-                        {...field}
-                        onChange={(e) => {
-                          const convertedUrl = convertDriveUrlToThumbnail(e.target.value);
-                          field.onChange(convertedUrl);
-                        }}
-                      />
-                    </FormControl>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <FormLabel>Faculty Photo</FormLabel>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setUseImageUpload(!useImageUpload)
+                      setImagePreview(null)
+                      form.setValue('photoUrl', '')
+                      form.setValue('imageFile', undefined)
+                    }}
+                  >
+                    {useImageUpload ? 'Use URL Instead' : 'Upload Image'}
+                  </Button>
+                </div>
+
+                {useImageUpload ? (
+                  <div className="space-y-2">
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) {
+                          form.setValue('imageFile', file)
+                          form.setValue('photoUrl', '')
+                          const reader = new FileReader()
+                          reader.onloadend = () => {
+                            setImagePreview(reader.result as string)
+                          }
+                          reader.readAsDataURL(file)
+                        }
+                      }}
+                    />
                     <FormDescription>
-                      Link to faculty member's photo
+                      Upload an image file (will be saved to public/images folder)
                     </FormDescription>
-                    <FormMessage />
-                  </FormItem>
+                  </div>
+                ) : (
+                  <FormField
+                    control={form.control}
+                    name="photoUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input 
+                            placeholder="https://example.com/photo.jpg" 
+                            {...field}
+                            onChange={(e) => {
+                              const convertedUrl = convertDriveUrlToThumbnail(e.target.value);
+                              field.onChange(convertedUrl);
+                              setImagePreview(convertedUrl);
+                              form.setValue('imageFile', undefined)
+                            }}
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          External link (Google Drive, etc.)
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 )}
-              />
+
+                {imagePreview && (
+                  <div className="mt-2">
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="w-32 h-32 object-cover rounded-lg border"
+                    />
+                  </div>
+                )}
+              </div>
 
               <FormField
                 control={form.control}

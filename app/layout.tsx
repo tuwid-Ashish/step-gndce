@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { siteConfig } from "@/components/site-config";
 import { AuthProvider } from "@/components/auth-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -74,6 +75,7 @@ export default function RootLayout({
             <SiteFooter />
           </div>
           <Toaster />
+          <Sonner />
         </AuthProvider>
       </body>
     </html>

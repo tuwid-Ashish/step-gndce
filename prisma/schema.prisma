@@ -82,22 +82,51 @@ model Notice {
 }
 
 model Result {
+  id          String     @id @default(cuid())
+  title       String // e.g., "Full Stack Development - Semester 1 - Jan 2024"
+  slug        String     @unique
+  courseId    String?
+  courseType  CourseType // DIPLOMA or INDUSTRIAL_TRAINING
+  semester    Int? // Only for diploma
+  resultType  ResultType @default(DETAILED) // PDF or DETAILED
+  pdfUrl      String? // For PDF results (training or diploma)
+  publishedAt DateTime   @default(now())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  course      Course?    @relation(fields: [courseId], references: [id], onDelete: SetNull)
+  entries     ResultEntry[]
+
+  @@index([courseType])
+  @@index([publishedAt])
+  @@map("results")
+}
+
+model ResultEntry {
   id          String   @id @default(cuid())
+  resultId    String
   rollNumber  String
   studentName String
-  courseId    String
-  semester    Int
+  grade       String? // A, B, C, D, F
   sgpa        Float?
   cgpa        Float?
-  resultData  Json
-  publishedAt DateTime @default(now())
+  totalMarks  Float?
+  maxMarks    Float?
+  percentage  Float?
+  status      String   @default("PASS") // PASS, FAIL
+  subjectData Json // Store subject-wise marks, names, etc.
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  result      Result   @relation(fields: [resultId], references: [id], onDelete: Cascade)
 
-  @@unique([rollNumber, courseId, semester])
+  @@unique([rollNumber, resultId])
   @@index([rollNumber])
-  @@map("results")
+  @@index([resultId])
+  @@map("result_entries")
+}
+
+enum ResultType {
+  PDF
+  DETAILED
 }
 
 model Blog {

@@ -18,7 +18,7 @@ export function MainLogo({ className }: MainLogoProps) {
       {/* logo */}
       <div className="h-12 w-12 rounded-f overflow-hidden shrink-0">
         <Image
-          src="https://stepgndec.com/wp-content/themes/STEPv8/img/stepback.png"
+          src="/images/stepback.png"
           width={48}
           height={48}
           alt="STEP logo"

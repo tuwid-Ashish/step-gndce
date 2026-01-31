@@ -38,7 +38,7 @@ export default async function StartupsManagementPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Ventures</CardTitle>
@@ -47,19 +47,36 @@ export default async function StartupsManagementPage() {
           <CardContent>
             <div className="text-2xl font-bold">{startups.length}</div>
             <p className="text-xs text-muted-foreground">
-              {startupsOnly.length} startups, {companies.length} companies
+              All startups and companies
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Startups</CardTitle>
+            <CardTitle className="text-sm font-medium">Startups</CardTitle>
             <Rocket className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-blue-600">
               {startupsOnly.length}
             </div>
+            <p className="text-xs text-muted-foreground">
+              Early stage ventures
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Companies</CardTitle>
+            <Building2 className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-purple-600">
+              {companies.length}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Established companies
+            </p>
           </CardContent>
         </Card>
         <Card>
@@ -71,6 +88,9 @@ export default async function StartupsManagementPage() {
             <div className="text-2xl font-bold text-green-600">
               {graduated.length}
             </div>
+            <p className="text-xs text-muted-foreground">
+              Successfully graduated
+            </p>
           </CardContent>
         </Card>
       </div>

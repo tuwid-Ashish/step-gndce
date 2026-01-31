@@ -61,22 +61,10 @@ export default async function AdminLayout({
                 Results Management
               </h3>
               <Link 
-                href="/admin/results/exams" 
+                href="/admin/results" 
                 className="block px-3 py-2 rounded-md text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
               >
-                Manage Exams
-              </Link>
-              <Link 
-                href="/admin/results/upload" 
-                className="block px-3 py-2 rounded-md text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
-              >
-                Upload Results
-              </Link>
-              <Link 
-                href="/admin/results/entries" 
-                className="block px-3 py-2 rounded-md text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
-              >
-                View Entries
+                Manage Results
               </Link>
             </div>
 
@@ -119,18 +107,6 @@ export default async function AdminLayout({
                 className="block px-3 py-2 rounded-md text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
               >
                 Startups & Companies
-              </Link>
-            </div>
-
-            <div className="pt-2">
-              <h3 className="px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-                User Management
-              </h3>
-              <Link 
-                href="/admin/users" 
-                className="block px-3 py-2 rounded-md text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
-              >
-                Users
               </Link>
             </div>
           </nav>

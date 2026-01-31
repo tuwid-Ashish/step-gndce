@@ -124,7 +124,7 @@ export default function IncubationPage() {
               See how our incubated startups are making an impact
             </p>
             <div className="text-center">
-              <Button variant="outline" asChild>
+              <Button variant="outline" className="text-primary" asChild>
                 <Link href="/startups">View All Startups</Link>
               </Button>
             </div>
