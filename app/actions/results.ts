@@ -1,4 +1,3 @@
-// @ts-nocheck - Schema will be updated after migration
 "use server"
 
 import { auth } from "@/lib/auth"
@@ -37,7 +36,6 @@ export async function uploadResultPdf(formData: FormData) {
     const slug = generateSlug(title)
 
     // Create result record
-    // @ts-ignore - Schema will be updated after migration
     const result = await prisma.result.create({
       data: {
         title,
@@ -69,6 +67,7 @@ export async function uploadResultPdf(formData: FormData) {
 
     return { success: true, result }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error uploading PDF result:", error)
     return { error: "Failed to upload result" }
   }
@@ -102,7 +101,6 @@ export async function uploadResultCsv(formData: FormData) {
       return { error: "CSV file is empty or invalid" }
     }
 
-    const headers = lines[0].split(",").map(h => h.trim())
     const entries = []
 
     for (let i = 1; i < lines.length; i++) {
@@ -158,7 +156,6 @@ export async function uploadResultCsv(formData: FormData) {
     }
 
     // Create result record
-    // @ts-ignore - Schema will be updated after migration
     const result = await prisma.result.create({
       data: {
         title,
@@ -192,6 +189,7 @@ export async function uploadResultCsv(formData: FormData) {
 
     return { success: true, result, count: entries.length }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error uploading CSV result:", error)
     return { error: "Failed to process CSV file" }
   }
@@ -214,6 +212,7 @@ export async function deleteResult(resultId: string) {
 
     return { success: true }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error deleting result:", error)
     return { error: "Failed to delete result" }
   }
@@ -222,7 +221,6 @@ export async function deleteResult(resultId: string) {
 // Get result by roll number
 export async function getResultByRollNumber(rollNumber: string, resultId: string) {
   try {
-    // @ts-ignore - Schema will be updated after migration
     const result = await prisma.result.findUnique({
       where: { id: resultId },
       include: {
@@ -239,44 +237,36 @@ export async function getResultByRollNumber(rollNumber: string, resultId: string
       return { error: "Result not found" }
     }
 
-    // @ts-ignore - Schema will be updated after migration
     if (result.resultType === "PDF") {
       return { 
         success: true, 
         result: {
           type: "PDF",
-          // @ts-ignore
           pdfUrl: result.pdfUrl,
-          // @ts-ignore
           title: result.title,
-          // @ts-ignore
           course: result.course,
         }
       }
     }
 
-    // @ts-ignore
     if (result.entries.length === 0) {
       return { error: "No result found for this roll number" }
     }
 
-    // @ts-ignore
     const entry = result.entries[0]
 
     return {
       success: true,
       result: {
         type: "DETAILED",
-        // @ts-ignore
         title: result.title,
-        // @ts-ignore
         course: result.course,
-        // @ts-ignore
         semester: result.semester,
         ...entry,
       }
     }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error fetching result:", error)
     return { error: "Failed to fetch result" }
   }

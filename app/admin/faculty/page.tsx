@@ -28,7 +28,6 @@ export default async function AdminFacultyPage() {
   })
 
   const activeFaculty = allFaculty.filter((f) => f.isActive)
-  const inactiveFaculty = allFaculty.filter((f) => !f.isActive)
   const diplomaFaculty = allFaculty.filter((f) => f.teachesDiploma)
   const trainingFaculty = allFaculty.filter((f) => f.teachesTraining)
 

@@ -1,14 +1,29 @@
-// @ts-nocheck - Schema will be updated after migration
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { prisma } from "@/lib/prisma"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Plus, FileText, GraduationCap, Calendar, Download } from "lucide-react"
 import Link from "next/link"
 import { format } from "date-fns"
 import { DeleteResultButton } from "./actions-client"
+
+// Type definition for results
+interface ResultItem {
+  id: string
+  title: string
+  courseType: "DIPLOMA" | "INDUSTRIAL_TRAINING"
+  resultType: "PDF" | "DETAILED"
+  course: {
+    title: string
+  }
+  semester: number | null
+  publishedAt: Date
+  _count: {
+    entries: number
+  }
+  pdfUrl: string | null
+}
 
 export const metadata = {
   title: "Manage Results",
@@ -28,9 +43,9 @@ export default async function ManageResultsPage() {
   }
 
   // Temporarily return empty array until migration is run
-  const results: any[] = []
-  const diplomaResults: any[] = []
-  const trainingResults: any[] = []
+  const results: ResultItem[] = []
+  const diplomaResults: ResultItem[] = []
+  const trainingResults: ResultItem[] = []
 
   return (
     <div className="space-y-6">

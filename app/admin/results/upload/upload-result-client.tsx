@@ -1,4 +1,3 @@
-// @ts-nocheck - Schema will be updated after migration
 "use client"
 
 import { useState } from "react"

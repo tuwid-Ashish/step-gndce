@@ -1,6 +1,5 @@
 import { Container } from "@/components/container"
 import { ResultsClient } from "./results-client"
-import { prisma } from "@/lib/prisma"
 
 export const metadata = {
   title: "Check Results",
@@ -9,8 +8,8 @@ export const metadata = {
 
 export default async function ResultsPage() {
   // Temporarily return empty arrays until migration is run
-  const diplomaResults: any[] = []
-  const trainingResults: any[] = []
+  const diplomaResults: never[] = []
+  const trainingResults: never[] = []
 
   return (
     <div className="py-16">

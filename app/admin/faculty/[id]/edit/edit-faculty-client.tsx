@@ -82,7 +82,7 @@ export function EditFacultyClient({ faculty }: EditFacultyClientProps) {
         router.push("/admin/faculty")
         router.refresh()
       }
-    } catch (error) {
+    } catch {
       toast.error("An unexpected error occurred")
     } finally {
       setIsSubmitting(false)

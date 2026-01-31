@@ -38,27 +38,10 @@ async function saveImageFile(file: File, facultySlug: string): Promise<string> {
     // Return the public path that will be stored in DB
     return `/images/faculty/${filename}`
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error saving image file:", error)
     throw new Error("Failed to save image file")
   }
-}
-
-// Type for faculty form data
-interface FacultyFormData {
-  name: string
-  designation: string
-  department: string
-  email: string
-  phone?: string
-  photoUrl?: string
-  specialization?: string
-  qualifications?: string[]
-  experience?: string
-  bio?: string
-  teachesDiploma: boolean
-  teachesTraining: boolean
-  linkedIn?: string
-  isActive: boolean
 }
 
 export async function createFaculty(formData: FormData) {
@@ -130,6 +113,7 @@ export async function createFaculty(formData: FormData) {
 
     return { success: true, faculty }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error creating faculty:", error)
     return { error: "Failed to create faculty member" }
   }
@@ -206,6 +190,7 @@ export async function updateFaculty(id: string, formData: FormData) {
 
     return { success: true, faculty }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error updating faculty:", error)
     return { error: "Failed to update faculty member" }
   }
@@ -227,6 +212,7 @@ export async function deleteFaculty(id: string) {
 
     return { success: true }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error deleting faculty:", error)
     return { error: "Failed to delete faculty member" }
   }
@@ -258,6 +244,7 @@ export async function toggleFacultyActive(id: string) {
 
     return { success: true, faculty: updated }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error toggling faculty active status:", error)
     return { error: "Failed to update faculty status" }
   }

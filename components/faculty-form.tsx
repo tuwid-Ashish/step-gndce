@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useForm, useFieldArray } from "react-hook-form"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 import {
   Form,
   FormControl,
@@ -283,11 +284,14 @@ export function FacultyForm({ initialData, onSubmit, isSubmitting }: FacultyForm
                 )}
 
                 {imagePreview && (
-                  <div className="mt-2">
-                    <img
+                  <div className="mt-2 relative w-32 h-32">
+                    <Image
                       src={imagePreview}
                       alt="Preview"
-                      className="w-32 h-32 object-cover rounded-lg border"
+                      width={128}
+                      height={128}
+                      className="object-cover rounded-lg border"
+                      unoptimized={useImageUpload}
                     />
                   </div>
                 )}

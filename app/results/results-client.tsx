@@ -14,7 +14,10 @@ import { toast } from "sonner"
 interface ResultData {
   type: "PDF" | "DETAILED"
   title: string
-  course: any
+  course: {
+    title: string
+    code: string
+  }
   pdfUrl?: string
   semester?: number
   rollNumber?: string
@@ -26,10 +29,27 @@ interface ResultData {
   maxMarks?: number
   percentage?: number
   status?: string
-  subjectData?: any
+  subjectData?: Array<{
+    name: string
+    obtained: number
+    max: number
+  }>
 }
 
-export function ResultsClient({ diplomaResults, trainingResults }: { diplomaResults: any[], trainingResults: any[] }) {
+interface Result {
+  id: string
+  title: string
+  semester?: number | null
+  courseType: "DIPLOMA" | "INDUSTRIAL_TRAINING"
+  resultType: "PDF" | "DETAILED"
+}
+
+interface ResultsClientProps {
+  diplomaResults: Result[]
+  trainingResults: Result[]
+}
+
+export function ResultsClient({ diplomaResults, trainingResults }: ResultsClientProps) {
   const [result, setResult] = useState<ResultData | null>(null)
   const [loading, setLoading] = useState(false)
   const [selectedResultId, setSelectedResultId] = useState<string>("")
@@ -275,7 +295,7 @@ export function ResultsClient({ diplomaResults, trainingResults }: { diplomaResu
                           </tr>
                         </thead>
                         <tbody>
-                          {result.subjectData.map((subject: any, index: number) => (
+                          {result.subjectData.map((subject: { name: string; obtained: number; max: number }, index: number) => (
                             <tr key={index} className="border-t">
                               <td className="p-3">{subject.name}</td>
                               <td className="p-3 text-center">{subject.obtained}</td>
