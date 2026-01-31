@@ -63,7 +63,7 @@ export const footerLinks = {
 export const siteConfig = {
   name: "STEP Institute",
   description: "Leading professional training and startup incubation institute",
-  url: "step.gne@gmail.com",
+  url: "https://stepgndec.com",
   contact: {
     phone: ["+91 7837100954",
 "+91 7837100922",
