@@ -69,6 +69,7 @@ export const siteConfig = {
 "+91 7837100922",
 "+91 7837100924"],
     email: "step.gne@gmail.com",
+    email_2: "info@stepgndec.com",
     address: "STEP Institute Campus, GNDCE, Ludhiana, Punjab 141006"
   },
   social: {

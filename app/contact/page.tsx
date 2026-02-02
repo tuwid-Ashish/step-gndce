@@ -137,6 +137,12 @@ export default function ContactPage() {
                   >
                     {siteConfig.contact.email}
                   </a>
+                  <a 
+                    href={`mailto:${siteConfig.contact.email_2}`}
+                    className="text-lg font-medium hover:text-primary transition-colors"
+                  >
+                    {` ${siteConfig.contact.email_2}`}
+                  </a>
                 </CardContent>
               </Card>
 

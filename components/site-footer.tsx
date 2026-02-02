@@ -69,13 +69,19 @@ export function SiteFooter() {
                     {siteConfig.contact.phone}
                   </a>
                 </div>
-                <div className="flex items-start gap-2">
+                <div className="flex items-start justify-content-center gap-2">
                   <Mail className="h-4 w-4 mt-0.5 text-muted-foreground shrink-0" />
                   <a 
                     href={`mailto:${siteConfig.contact.email}`}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    {siteConfig.contact.email}
+                    {`${siteConfig.contact.email}`}
+                  </a> <span>/</span>
+                  <a 
+                    href={`mailto:${siteConfig.contact.email_2}`}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {siteConfig.contact.email_2}
                   </a>
                 </div>
                 <div className="flex items-start gap-2">

@@ -52,7 +52,7 @@ export default function AboutPage() {
                     Apply Now <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="text-black" asChild>
+                <Button size="lg" variant="outline" asChild>
                   <Link href="/contact">Contact Us</Link>
                 </Button>
               </div>
@@ -116,7 +116,7 @@ export default function AboutPage() {
                     Entrepreneurship Programs
                   </Link>
                 </Button>
-                <Button variant="outline" className="text-black" asChild>
+                <Button variant="outline" asChild>
                   <Link href="/startups">View Startups</Link>
                 </Button>
               </div>
@@ -130,7 +130,7 @@ export default function AboutPage() {
                   className="object-cover"
                 />
               </div>
-              <div className="absolute -bottom-6 -right-6 bg-primary text-primary-foreground p-6 rounded-xl shadow-xl max-w-xs">
+              <div className="absolute -bottom-6 -right-6 bg-primary text-white p-6 rounded-xl shadow-xl max-w-xs">
                 <p className="text-sm font-semibold">🏆 IISA Award Winner</p>
                 <p className="text-xs mt-1 opacity-90">National Eminent Educator Award</p>
               </div>

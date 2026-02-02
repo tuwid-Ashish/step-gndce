@@ -64,7 +64,7 @@ export default async function FacultyPage() {
 
           {/* Faculty Tabs */}
           <Tabs defaultValue="all" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 mb-8">
+            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-3 mb-8">
               <TabsTrigger value="all">
                 All Faculty ({allFaculty.length})
               </TabsTrigger>
@@ -74,9 +74,7 @@ export default async function FacultyPage() {
               <TabsTrigger value="training">
                 Training ({trainingFaculty.length + bothFaculty.length})
               </TabsTrigger>
-              <TabsTrigger value="both">
-                Both ({bothFaculty.length})
-              </TabsTrigger>
+            
             </TabsList>
 
             <TabsContent value="all" className="space-y-6">

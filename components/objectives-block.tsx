@@ -15,7 +15,7 @@ export function ObjectivesBlock({ objectives }: ObjectivesBlockProps) {
               key={i} 
               className="flex gap-3 rounded-lg border border-border bg-card p-4 shadow-sm"
             >
-              <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-sm text-primary-foreground">
+              <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-sm text-white">
                 {i + 1}
               </div>
               <p className="text-sm md:text-base">{objective}</p>

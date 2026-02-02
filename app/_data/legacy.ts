@@ -27,19 +27,19 @@ export const testimonials = [
   {
     name: "Gurpreet Singh",
     role: "Student",
-    photoUrl: "https://stepgndec.com/wp-content/themes/STEPv8/img/smiling-student-girl-in-eyeglasses-with-books-happ-LGZSH4B.jpg", // TODO: Upload actual testimonial photos
+    photoUrl: "/images/testimonial1.jpg", // TODO: Upload actual testimonial photos
     quote: "The teacher-student interaction was great. The teachers were very friendly because of which I could clarify many of my doubts."
   },
   {
     name: "Karamveer Singh",
     role: "Student",
-    photoUrl: "https://stepgndec.com/wp-content/themes/STEPv8/img/P2UGM57.jpg",
+    photoUrl: "/images/testimonial2.jpg",
     quote: "I like the faculty and I feel I had the best environment for my studies."
   },
   {
     name: "Harmanpreet Singh",
     role: "Student",
-    photoUrl: "https://stepgndec.com/wp-content/themes/STEPv8/img/portrait-of-male-student-standing-in-college-build-PQG6E9T.jpg",
+    photoUrl: "/images/testimonial2.jpg",
     quote: "The teacher-student interaction was great. The teachers were very friendly because of which I could clarify many of my doubts."
   }
 ]
