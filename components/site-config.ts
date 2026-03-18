@@ -17,6 +17,7 @@ export const nav = {
       children: [
         { label: "Diplomas", href: "/diplomas", description: "Professional diploma programs" },
         { label: "Industrial Training", href: "/industrial-trainings", description: "Short-term training programs" },
+        { label: "Industry Consultancy", href: "/consultancy", description: "Professional consultancy for hardware and IT solutions" },
         { label: "Results", href: "/results", description: "Check exam results and scores" },
         { label: "Notice Board", href: "/notices", description: "Latest announcements and updates" },
       ]
@@ -46,6 +47,7 @@ export const footerLinks = {
   quickLinks: [
     { title: "About Us", href: "/about" },
     { title: "Diplomas", href: "/diplomas" },
+    { title: "Consultancy", href: "/consultancy" },
     // { title: "Results", href: "/results" },
     { title: "Faculty & Staff", href: "/faculty" },
     { title: "Notice Board", href: "/notices" },
