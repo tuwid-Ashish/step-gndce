@@ -52,7 +52,7 @@ export default function ConsultancyPage() {
                 <Link href="/contact?subject=consultancy">Request Consultancy</Link>
               </Button>
               <Button variant="outline" asChild>
-                <Link href="/apply?program=industry-consultancy">Submit Project Requirement</Link>
+                <Link href="/contact?subject=consultancy">Submit Project Requirement</Link>
               </Button>
             </div>
           </section>
