@@ -18,11 +18,11 @@ import {
   Calendar, 
   Mail, 
   Phone, 
-  User, 
   X,
   Save,
   ArrowLeft,
-  MailCheck
+  MailCheck,
+  FileText
 } from "lucide-react"
 import { ContactStatus } from "@prisma/client"
 import { updateContactStatus, deleteContactMessage } from "@/app/actions/contact"

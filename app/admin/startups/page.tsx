@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { StartupList } from "@/components/startup-list"
 import { ApplicationsClient, SerializedApplication } from "@/app/admin/applications/applications-client"
+import { Startup, Application } from "@prisma/client"
 import { Building2, Rocket, Award, Plus, FileText, ArrowRight } from "lucide-react"
 import Link from "next/link"
 
@@ -21,8 +22,8 @@ export default async function StartupsManagementPage() {
     redirect("/admin")
   }
 
-  let startups: any[] = []
-  let incubationApplications: any[] = []
+  let startups: Startup[] = []
+  let incubationApplications: Application[] = []
 
   try {
     const results = await Promise.all([
