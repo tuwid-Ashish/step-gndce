@@ -324,7 +324,7 @@ export default function AboutPage() {
                 <div className="md:col-span-2">
                   <div className="aspect-3/4 relative rounded-xl overflow-hidden">
                     <Image
-                      src="https://stepgndec.com/wp-content/themes/STEPv8/img/caucasian-man-standing-mockup-DVM4P39.png"
+                      src="/images/executive-director.png"
                       alt="Dr. Arvind Dhingra"
                       fill
                       className="object-cover"
