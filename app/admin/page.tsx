@@ -3,7 +3,7 @@ import { redirect } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { FileText, Building2, BookOpen, LogOut, Shield, CalendarDays, GraduationCap } from "lucide-react"
+import { FileText, Building2, BookOpen, LogOut, Shield, CalendarDays, GraduationCap, MessageSquare } from "lucide-react"
 import Link from "next/link"
 import { prisma } from "@/lib/prisma"
 
@@ -22,14 +22,26 @@ export default async function AdminDashboard() {
   const { user } = session
   
   // Fetch real counts from database
-  const [noticesCount, blogsCount, startupsCount, eventsCount, coursesCount, facultyCount] = await Promise.all([
-    prisma.notice.count(),
-    prisma.blog.count({ where: { isPublished: true } }),
-    prisma.startup.count({ where: { isActive: true } }),
-    prisma.event.count(),
-    prisma.course.count({ where: { isActive: true } }),
-    prisma.faculty.count({ where: { isActive: true } })
-  ])
+  let noticesCount = 0, blogsCount = 0, startupsCount = 0, eventsCount = 0, coursesCount = 0, facultyCount = 0, applicationsCount = 0, pendingAppsCount = 0, contactCount = 0, unreadContactCount = 0
+
+  try {
+    const results = await Promise.all([
+      prisma.notice.count(),
+      prisma.blog.count({ where: { isPublished: true } }),
+      prisma.startup.count({ where: { isActive: true } }),
+      prisma.event.count(),
+      prisma.course.count({ where: { isActive: true } }),
+      prisma.faculty.count({ where: { isActive: true } }),
+      prisma.application.count(),
+      prisma.application.count({ where: { status: "PENDING" } }),
+      prisma.contactMessage.count(),
+      prisma.contactMessage.count({ where: { status: "UNREAD" } })
+    ])
+    ;[noticesCount, blogsCount, startupsCount, eventsCount, coursesCount, facultyCount, applicationsCount, pendingAppsCount, contactCount, unreadContactCount] = results
+  } catch {
+    // default 0
+  }
+
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
@@ -54,7 +66,36 @@ export default async function AdminDashboard() {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card className="border-primary/20 bg-primary/5">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-primary">
+              Applications
+            </CardTitle>
+            <FileText className="h-4 w-4 text-primary" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-primary">{applicationsCount}</div>
+            <p className="text-xs text-primary/80">
+              {pendingAppsCount} pending review
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-amber-500/20 bg-amber-500/5">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-amber-700 dark:text-amber-400">
+              Contact Messages
+            </CardTitle>
+            <MessageSquare className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-amber-700 dark:text-amber-400">{contactCount}</div>
+            <p className="text-xs text-amber-600/80 dark:text-amber-400/80">
+              {unreadContactCount} unread inquiries
+            </p>
+          </CardContent>
+        </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
@@ -185,6 +226,11 @@ export default async function AdminDashboard() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
+            <Button variant="default" size="sm" className="w-full justify-start font-semibold flex items-center gap-2" asChild>
+              <Link href="/admin/applications">
+                <FileText className="w-4 h-4" /> Applications Portal
+              </Link>
+            </Button>
             <Button variant="outline" size="sm" className="w-full justify-start" asChild>
               <Link href="/admin/courses">Courses & Diplomas</Link>
             </Button>
