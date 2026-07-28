@@ -11,6 +11,8 @@ import { director, objectives, testimonials, incubator } from "@/app/_data/legac
 import { Trophy, GraduationCap, ArrowRight, TrendingUp,} from "lucide-react"
 import { prisma } from "@/lib/prisma"
 
+import { HeroVideo } from "@/components/hero-video"
+
 // TODO: replace with the actual STEP asset URLs or move files into /public and point there.
 const HERO_POSTER ="/image.png" // <- update path
 
@@ -20,6 +22,7 @@ export const metadata = {
     "One-year Diplomas & PG Diplomas,industrial trainings, and entrepreneurship programs at GNDEC, Ludhiana"
 }
 
+// diploams data query
 const diplomasData = await prisma.course.findMany({
     where: {
       type: "DIPLOMA",
@@ -42,8 +45,6 @@ const diplomasData = await prisma.course.findMany({
     take: 4
   })
 
-// Mock data (replace from DB/admin later)
-
 const startups = [
   { name: "My Virtual Teams", href: "/startups/" },
   { name: "Radius 7 Innovation", href: "/startups/" },
@@ -56,49 +57,36 @@ export default function HomePage() {
     <div className="flex flex-col">
 
       {/* HERO with background video */}
-      <section className="relative isolate">
-        {/* Video bg */}
-        <div className="absolute inset-0 -z-10 overflow-hidden rounded-none pointer-events-none select-none">
-          {/* Poster image for loading state */}
-          <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${HERO_POSTER})` }} />
-          <iframe 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-[56.25vw] min-h-screen min-w-[177.77vh] pointer-events-none"
-            src="https://www.youtube.com/embed/ybtlmX3yPEk?autoplay=1&mute=1&loop=1&playlist=ybtlmX3yPEk&controls=0&showinfo=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&enablejsapi=1" 
-            title="STEP GNDEC Background Video" 
-            allow="autoplay; encrypted-media" 
-            aria-hidden="true"
-          />
-          {/* Gradient scrim for readability */}
-          <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/45" />
-        </div>
-
+      <section className="relative isolate min-h-[85vh] flex items-center">
+        {/* Auto-replaying Background Video without controls */}
+        <HeroVideo videoId="ybtlmX3yPEk" poster={HERO_POSTER} />
 
         <Container>
           <div className="py-16 lg:py-24 grid items-center gap-8 md:grid-cols-2">
             <div className="text-white space-y-4">
-              <p className="text-xs md:text-sm font-semibold tracking-widest uppercase text-amber-400/90">Science & Technology Entrepreneurs’ Park, GNDEC</p>
-              <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight">
+              <p className="text-xs md:text-sm font-bold tracking-widest uppercase text-amber-400 drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">Science & Technology Entrepreneurs’ Park, GNDEC</p>
+              <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                 Train. <span className="text-amber-400">Incubate.</span> Launch.
               </h1>
-              <p className="text-lg md:text-xl text-white/80 leading-relaxed max-w-xl">
+              <p className="text-lg md:text-xl text-white/90 leading-relaxed max-w-xl drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">
                 One-year Diplomas & PG Diplomas, industrial trainings, and entrepreneurship programs — all under one roof in Ludhiana.
               </p>
               <div className="pt-2 flex flex-wrap gap-3">
                 <Button size="lg" className="font-bold shadow-lg hover:shadow-xl transition-all" asChild>
                   <Link href="/apply"><GraduationCap className="mr-2 h-5 w-5" /> Apply Now</Link>
                 </Button>
-                <Button size="lg" variant="outline" className="bg-white/10 hover:bg-white/20 border-white/30 text-white font-semibold backdrop-blur-md" asChild>
+                <Button size="lg" variant="outline" className="bg-black/30 hover:bg-black/50 border-white/40 text-white font-semibold backdrop-blur-md" asChild>
                   <Link href="/diplomas">View Diplomas <ArrowRight className="ml-2 h-4 w-4" /></Link>
                 </Button>
-                <Button size="lg" variant="outline" className="bg-white/10 hover:bg-white/20 border-white/30 text-white font-semibold backdrop-blur-md" asChild>
+                <Button size="lg" variant="outline" className="bg-black/30 hover:bg-black/50 border-white/40 text-white font-semibold backdrop-blur-md" asChild>
                   <Link href="/results"><Trophy className="mr-2 h-5 w-5 text-amber-400" /> Check Results</Link>
                 </Button>
               </div>
             </div>
 
-            {/* Quick Facts card */}
-            <div className="rounded-2xl border border-white/15 bg-black/50 backdrop-blur-xl p-6 md:p-8 shadow-2xl ring-1 ring-white/10 text-white space-y-5">
-              <h3 className="text-center text-xl font-bold tracking-wide text-amber-400">
+            {/* Transparent Programs at STEP Card */}
+            <div className="rounded-2xl border border-white/25 bg-black/20 backdrop-blur-xs md:backdrop-blur-sm p-6 md:p-8 shadow-2xl ring-1 ring-white/15 text-white space-y-5 hover:border-amber-400/40 transition-all">
+              <h3 className="text-center text-xl md:text-2xl font-black tracking-wide text-amber-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
                 Programs at STEP
               </h3>
               <div className="grid gap-4.5">
@@ -210,12 +198,12 @@ function Header({
 function Block({ title, items }: { title: string; items: string[] }) {
   return (
     <div className="space-y-1.5">
-      <h4 className="text-xs font-bold uppercase tracking-wider text-amber-300/90">{title}</h4>
+      <h4 className="text-xs font-black uppercase tracking-wider text-amber-300 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">{title}</h4>
       <div className="flex flex-wrap gap-2">
         {items.map((i) => (
           <span 
             key={i} 
-            className="inline-flex items-center rounded-lg bg-white/10 backdrop-blur-md px-3 py-1 text-xs font-semibold text-white border border-white/15 hover:bg-white/20 hover:border-amber-400/40 transition-all shadow-xs"
+            className="inline-flex items-center rounded-lg bg-black/60 backdrop-blur-md px-3 py-1 text-xs font-bold text-white border border-white/30 shadow-md hover:bg-amber-400/25 hover:border-amber-400 hover:text-amber-300 transition-all"
           >
             {i}
           </span>

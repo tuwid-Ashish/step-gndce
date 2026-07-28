@@ -124,7 +124,7 @@ export default function AboutPage() {
             <div className="relative">
               <div className="aspect-4/3 relative rounded-2xl overflow-hidden border-4 border-background shadow-2xl">
                 <Image
-                  src="https://stepgndec.com/wp-content/themes/STEPv8/img/college-students-posing-outdoors-e1617782277300.jpg"
+                  src="/images/about1.jpeg"
                   alt="STEP GNDEC Students"
                   fill
                   className="object-cover"
@@ -268,7 +268,7 @@ export default function AboutPage() {
             <div className="relative order-2 lg:order-1">
               <div className="aspect-4/3 relative rounded-2xl overflow-hidden border-4 border-background shadow-2xl">
                 <Image
-                  src="https://stepgndec.com/wp-content/themes/STEPv8/img/asian-college-student-on-campus-e1617782285168.jpg"
+                  src="/image.png"
                   alt="STEP Campus Life"
                   fill
                   className="object-cover"
